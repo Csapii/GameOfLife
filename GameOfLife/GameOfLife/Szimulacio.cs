@@ -8,8 +8,6 @@ namespace GameOfLife
 {
     internal class Szimulacio
     {
-<<<<<<< Updated upstream
-=======
 
         private readonly Palya palya;
 
@@ -38,6 +36,5 @@ namespace GameOfLife
             return JelenlegiKorSzama;
         }
 
->>>>>>> Stashed changes
     }
 }
