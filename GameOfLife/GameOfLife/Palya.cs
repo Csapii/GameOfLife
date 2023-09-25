@@ -8,5 +8,16 @@ namespace GameOfLife
 {
     internal class Palya
     {
+
+        private int PalyaMeretX { get; init; }
+
+        private int PalyaMeretY { get; init; }
+
+        public Palya(int palyaMeretX, int palyaMeretY)
+        {
+            PalyaMeretX = palyaMeretX;
+            PalyaMeretY = palyaMeretY;
+        }
+
     }
 }
