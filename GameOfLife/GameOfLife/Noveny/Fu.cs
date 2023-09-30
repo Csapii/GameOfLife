@@ -8,6 +8,17 @@ namespace GameOfLife
 {
     internal class Fu : INoveny
     {
+        public Fu()
+        {
+            ((INoveny)this).NovekedesiAllapotBeallitas();
+            ((INoveny)this).TapertekBeallitas();
+        }
+        public Fu(string novekedesiAllapot)
+        {
+            NovekedesiAllapot = novekedesiAllapot;
+            ((INoveny)this).TapertekBeallitas();
+        }
+
         private string? novekedesiAllapot;
         public string NovekedesiAllapot
         {
@@ -24,21 +35,16 @@ namespace GameOfLife
                 }
             }
         }
-        void INoveny.TapertekBeallitas()
+
+        private int tapertek;
+        public int Tapertek
         {
-            if (NovekedesiAllapot == "Fűkezdemény")
+            get
             {
-                tapertek = 0;
-            }
-            else if (NovekedesiAllapot == "Zsenge fű")
-            {
-                tapertek = 1;
-            }
-            else
-            {
-                tapertek = 2;
+                return tapertek;
             }
         }
+
         void INoveny.NovekedesiAllapotBeallitas()
         {
             Random rnd = new();
@@ -55,6 +61,21 @@ namespace GameOfLife
             else
             {
                 novekedesiAllapot = "Kifejlett fűcsomó";
+            }
+        }
+        void INoveny.TapertekBeallitas()
+        {
+            if (NovekedesiAllapot == "Fűkezdemény")
+            {
+                tapertek = 0;
+            }
+            else if (NovekedesiAllapot == "Zsenge fű")
+            {
+                tapertek = 1;
+            }
+            else
+            {
+                tapertek = 2;
             }
         }
         public void NovekedesiAllapotvaltozasNoveles()
@@ -83,16 +104,6 @@ namespace GameOfLife
                 ((INoveny)this).TapertekCsokkentes();
             }
         }
-
-        private int tapertek;
-        public int Tapertek
-        {
-            get
-            {
-                return tapertek;
-            }
-        }
-
         void INoveny.TapertekNoveles()
         {
             if (Tapertek < 2)
@@ -106,17 +117,6 @@ namespace GameOfLife
             {
                 tapertek--;
             }
-        }
-
-        public Fu()
-        {
-            ((INoveny)this).NovekedesiAllapotBeallitas();
-            ((INoveny)this).TapertekBeallitas();
-        }
-        public Fu(string novekedesiAllapot)
-        {
-            NovekedesiAllapot = novekedesiAllapot;
-            ((INoveny)this).TapertekBeallitas();
         }
     }
 }
