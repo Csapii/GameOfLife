@@ -107,5 +107,16 @@ namespace GameOfLife
                 tapertek--;
             }
         }
+
+        public Fu()
+        {
+            ((INoveny)this).NovekedesiAllapotBeallitas();
+            ((INoveny)this).TapertekBeallitas();
+        }
+        public Fu(string novekedesiAllapot)
+        {
+            NovekedesiAllapot = novekedesiAllapot;
+            ((INoveny)this).TapertekBeallitas();
+        }
     }
 }
