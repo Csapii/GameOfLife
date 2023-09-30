@@ -8,6 +8,23 @@ namespace GameOfLife
 {
     internal class Fu : INoveny
     {
+        private string? novekedesiAllapot;
+        public string NovekedesiAllapot
+        {
+            get { return novekedesiAllapot!; }
+            set
+            {
+                if (value == "Fűkezdemény" || value == "Zsenge fű" || value == "Kifejlett fűcsomó")
+                {
+                    novekedesiAllapot = value;
+                }
+                else
+                {
+                    ((INoveny)this).NovekedesiAllapotBeallitas();
+                }
+            }
+        }
+
         private int tapertek;
         public int Tapertek
         {
