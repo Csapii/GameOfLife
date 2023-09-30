@@ -16,5 +16,13 @@ namespace GameOfLife
                 return tapertek;
             }
         }
+
+        void INoveny.TapertekNoveles()
+        {
+            if (Tapertek < 2)
+            {
+                tapertek++;
+            }
+        }
     }
 }
