@@ -70,6 +70,19 @@ namespace GameOfLife
                 ((INoveny)this).TapertekNoveles();
             }
         }
+        public void NovekedesiAllapotvaltozasCsokkentes()
+        {
+            if (NovekedesiAllapot == "Kifejlett fűcsomó")
+            {
+                NovekedesiAllapot = "Zsenge fű";
+                ((INoveny)this).TapertekCsokkentes();
+            }
+            else if (NovekedesiAllapot == "Zsenge fű")
+            {
+                NovekedesiAllapot = "Fűkezdemény";
+                ((INoveny)this).TapertekCsokkentes();
+            }
+        }
 
         private int tapertek;
         public int Tapertek
