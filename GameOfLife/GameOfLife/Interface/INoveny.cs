@@ -11,6 +11,8 @@ namespace GameOfLife
         string NovekedesiAllapot { get; set; }
         int Tapertek { get; }
 
+        void NovekedesiAllapotBeallitas();
+        void TapertekBeallitas();
         void TapertekNoveles();
         void TapertekCsokkentes();
         void NovekedesiAllapotvaltozasNoveles();
