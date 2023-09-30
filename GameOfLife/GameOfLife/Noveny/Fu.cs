@@ -24,6 +24,21 @@ namespace GameOfLife
                 }
             }
         }
+        void INoveny.TapertekBeallitas()
+        {
+            if (NovekedesiAllapot == "Fűkezdemény")
+            {
+                tapertek = 0;
+            }
+            else if (NovekedesiAllapot == "Zsenge fű")
+            {
+                tapertek = 1;
+            }
+            else
+            {
+                tapertek = 2;
+            }
+        }
 
         private int tapertek;
         public int Tapertek
