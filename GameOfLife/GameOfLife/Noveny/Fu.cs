@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
-    internal class Fu
+    internal class Fu : INoveny
     {
+        private int tapertek;
+        public int Tapertek
+        {
+            get
+            {
+                return tapertek;
+            }
+        }
     }
 }
