@@ -39,6 +39,24 @@ namespace GameOfLife
                 tapertek = 2;
             }
         }
+        void INoveny.NovekedesiAllapotBeallitas()
+        {
+            Random rnd = new();
+            int veletlenszam = rnd.Next(0, 3 + 1);
+
+            if (veletlenszam == 0)
+            {
+                novekedesiAllapot = "Fűkezdemény";
+            }
+            else if (veletlenszam == 1)
+            {
+                novekedesiAllapot = "Zsenge fű";
+            }
+            else
+            {
+                novekedesiAllapot = "Kifejlett fűcsomó";
+            }
+        }
 
         private int tapertek;
         public int Tapertek
