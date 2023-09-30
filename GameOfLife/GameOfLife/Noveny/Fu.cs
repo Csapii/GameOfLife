@@ -57,6 +57,19 @@ namespace GameOfLife
                 novekedesiAllapot = "Kifejlett fűcsomó";
             }
         }
+        public void NovekedesiAllapotvaltozasNoveles()
+        {
+            if (NovekedesiAllapot == "Fűkezdemény")
+            {
+                NovekedesiAllapot = "Zsenge fű";
+                ((INoveny)this).TapertekNoveles();
+            }
+            else if (NovekedesiAllapot == "Zsenge fű")
+            {
+                NovekedesiAllapot = "Kifejlett fűcsomó";
+                ((INoveny)this).TapertekNoveles();
+            }
+        }
 
         private int tapertek;
         public int Tapertek
