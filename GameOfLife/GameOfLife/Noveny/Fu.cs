@@ -24,5 +24,12 @@ namespace GameOfLife
                 tapertek++;
             }
         }
+        void INoveny.TapertekCsokkentes()
+        {
+            if (Tapertek > 0)
+            {
+                tapertek--;
+            }
+        }
     }
 }
