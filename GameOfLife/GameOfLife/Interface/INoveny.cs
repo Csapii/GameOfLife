@@ -9,9 +9,11 @@ namespace GameOfLife
     internal interface INoveny
     {
         string NovekedesiAllapot { get; set; }
-        int Tapertek { get; set; }
+        int Tapertek { get; }
 
-        void NovekedesiAllapotvaltozasPozitivIranyba();
-        void NovekedesiAllapotvaltozasNegativIranyba();
+        void TapertekNoveles();
+        void TapertekCsokkentes();
+        void NovekedesiAllapotvaltozasNoveles();
+        void NovekedesiAllapotvaltozasCsokkentes();
     }
 }
