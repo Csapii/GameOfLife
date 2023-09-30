@@ -11,7 +11,7 @@ namespace GameOfLife
         string NovekedesiAllapot { get; set; }
         int Tapertek { get; set; }
 
-        public void NovekedesiAllapotvaltozasPozitivIranyba();
-        public void NovekedesiAllapotvaltozasNegativIranyba();
+        void NovekedesiAllapotvaltozasPozitivIranyba();
+        void NovekedesiAllapotvaltozasNegativIranyba();
     }
 }
