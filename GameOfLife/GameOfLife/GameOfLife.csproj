@@ -7,13 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Cella.cs" />
-    <Compile Remove="Megjelenites.cs" />
-    <Compile Remove="Nyul.cs" />
-    <Compile Remove="Palya.cs" />
-    <Compile Remove="Roka.cs" />
-    <Compile Remove="Szimulacio.cs" />
-  </ItemGroup>
-
 </Project>
