@@ -13,7 +13,7 @@ namespace GameOfLife
 
         private int KorokSzama { get; set; }
 
-        private int JelenlegiKorSzama { get; set; }
+        public int JelenlegiKorSzama { get; private set; }
 
         public Szimulacio(Palya palya, int korokSzama)
         {
@@ -25,15 +25,26 @@ namespace GameOfLife
 
         public void SzimulacioInditas()
         {
+
+            palya.PalyaElkeszites();
+
+            palya.PalyaMegjelenites();
+
+            Console.WriteLine("Kiinduló állapot");
+
+            Console.ReadKey();
+
             for (JelenlegiKorSzama = 1; JelenlegiKorSzama <= KorokSzama; JelenlegiKorSzama++)
             {
-                Console.WriteLine($"{JelenlegiKorSzama}. kör lefutott");
-            }
-        }
 
-        public int LekerJelenlegiKorSzama()
-        {
-            return JelenlegiKorSzama;
+                palya.PalyaValtoztatasok();
+
+                palya.PalyaMegjelenites();
+
+                Console.WriteLine($"{JelenlegiKorSzama}. kör lefutott");
+
+                Console.ReadKey();
+            }
         }
 
     }
