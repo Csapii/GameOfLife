@@ -47,39 +47,44 @@ namespace GameOfLife
             }
         }
 
+        void IAllat.JollakottsagiSzintBeallitas()
+        {
+            Random rnd = new();
+            int veletlenszam = rnd.Next(1, 5 + 1);
+
+            JollakottsagiSzint = veletlenszam;
+        }
+        public bool JollakottsagiSzintNovelese(int egyseg)
+        {
+            if (JollakottsagiSzint < 5 && (egyseg > 0 && egyseg <= 2))
+            {
+                jollakottsagiSzint+=egyseg;
+                return true;
+            }
+            return false;
+        }
+        public bool JollakottsagiSzintCsokkentese()
+        {
+            if (JollakottsagiSzint > 0)
+            {
+                jollakottsagiSzint--;
+                return true;
+            }
+            return false;
+        }
+
         public void Elpusztulas()
         {
             throw new NotImplementedException();
         }
-
-        void IAllat.JollakottsagiSzintBeallitas()
-        {
-            Random rnd = new();
-            int veletlenszam = rnd.Next(1, 6+1);
-
-            JollakottsagiSzint = veletlenszam;
-        }
-
-        public bool JollakottsagiSzintCsokkentese(int egyseg)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool JollakottsagiSzintNovelese(int egyseg)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Mozgas()
         {
             throw new NotImplementedException();
         }
-
         public bool Szaporodas()
         {
             throw new NotImplementedException();
         }
-
         public void Taplalkozas()
         {
             throw new NotImplementedException();
