@@ -12,6 +12,16 @@ namespace GameOfLife
         public int Tapertek = 3;
 
         private int jollakottsagiSzint;
+
+        public Nyul(int jollakottsagiSzint)
+        {
+            JollakottsagiSzint = jollakottsagiSzint;
+        }
+        public Nyul()
+        {
+            ((IAllat)this).JollakottsagiSzintBeallitas();
+        }
+
         public int JollakottsagiSzint 
         { 
             get 
