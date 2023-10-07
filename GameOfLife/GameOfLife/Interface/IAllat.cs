@@ -8,7 +8,7 @@ namespace GameOfLife.Interface
 {
     internal interface IAllat
     {
-        int JollakottsagiSzint { get; init; }
+        int JollakottsagiSzint { get; set; }
 
         bool JollakottsagiSzintNovelese(int egyseg);
         bool JollakottsagiSzintCsokkentese(int egyseg);
