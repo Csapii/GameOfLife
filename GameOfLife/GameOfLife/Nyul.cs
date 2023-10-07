@@ -36,9 +36,12 @@ namespace GameOfLife
             throw new NotImplementedException();
         }
 
-        public void JollakottsagiSzintBeallitas()
+        void IAllat.JollakottsagiSzintBeallitas()
         {
-            throw new NotImplementedException();
+            Random rnd = new();
+            int veletlenszam = rnd.Next(1, 6+1);
+
+            JollakottsagiSzint = veletlenszam;
         }
 
         public bool JollakottsagiSzintCsokkentese(int egyseg)
