@@ -11,7 +11,7 @@ namespace GameOfLife
 
         private readonly Palya palya;
 
-        private int KorokSzama { get; set; }
+        public int KorokSzama { get; private set; }
 
         public int JelenlegiKorSzama { get; private set; }
 
