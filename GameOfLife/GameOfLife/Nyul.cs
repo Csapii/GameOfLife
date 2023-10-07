@@ -9,7 +9,27 @@ namespace GameOfLife
 {
     internal class Nyul : IAllat
     {
-        public int JollakottsagiSzint { get => throw new NotImplementedException(); init => throw new NotImplementedException(); }
+        public int Tapertek = 3;
+
+        private int jollakottsagiSzint;
+        public int JollakottsagiSzint 
+        { 
+            get 
+            {
+                return jollakottsagiSzint;
+            }
+            set
+            {
+                if (value > 0 && value < 6)
+                {
+                    jollakottsagiSzint = value;
+                }
+                else
+                {
+                    jollakottsagiSzint = 5;
+                }
+            }
+        }
 
         public void Elpusztulas()
         {
