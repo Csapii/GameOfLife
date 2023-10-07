@@ -11,7 +11,7 @@ namespace GameOfLife
     {
 
         public int Tapertek = 3;
-        int jollakottsagiSzint;
+        public int jollakottsagiSzint;
         static int azonositohozSzamlalo = 0;
         public int Azonosito { get; set; }
 
@@ -56,7 +56,7 @@ namespace GameOfLife
         }
         public bool JollakottsagiSzintNovelese(int egyseg)
         {
-            if (JollakottsagiSzint < 5 && (egyseg > 0 && egyseg <= 2))
+            if (JollakottsagiSzint+egyseg < 6 && egyseg > 0)
             {
                 jollakottsagiSzint+=egyseg;
                 return true;
