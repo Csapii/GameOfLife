@@ -9,17 +9,23 @@ namespace GameOfLife
 {
     internal class Nyul : IAllat
     {
-        public int Tapertek = 3;
 
-        private int jollakottsagiSzint;
+        public int Tapertek = 3;
+        int jollakottsagiSzint;
+        static int azonositohozSzamlalo = 0;
+        public int Azonosito { get; set; }
 
         public Nyul(int jollakottsagiSzint)
         {
             JollakottsagiSzint = jollakottsagiSzint;
+            azonositohozSzamlalo++;
+            Azonosito = azonositohozSzamlalo;
         }
         public Nyul()
         {
             ((IAllat)this).JollakottsagiSzintBeallitas();
+            azonositohozSzamlalo++;
+            Azonosito = azonositohozSzamlalo;
         }
 
         public int JollakottsagiSzint 
