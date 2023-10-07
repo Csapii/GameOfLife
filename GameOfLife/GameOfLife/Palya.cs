@@ -14,7 +14,7 @@ namespace GameOfLife
 
         private int PalyaMeretY { get; init; }
 
-        private readonly List<object>[,] palya;
+        private readonly Cella[,] palya;
 
         private readonly Random rnd;
 
@@ -22,24 +22,28 @@ namespace GameOfLife
         {
             PalyaMeretX = palyaMeretX;
             PalyaMeretY = palyaMeretY;
-            palya = new List<object>[palyaMeretX, palyaMeretY];
+            palya = new Cella[palyaMeretX, palyaMeretY];
             rnd = new Random();
         }
 
+
+
         public void FuHozzaadas(int x, int y)
         {
-            palya[x, y].Add(new Fu());
+            palya[x, y].SetFu();
         }
 
         public void NyulHozzaadas(int x, int y)
         {
-            palya[x, y].Add(new Nyul());
+            palya[x, y].SetNyul();
         }
 
         public void RokaHozzaadas(int x, int y)
         {
-            palya[x, y].Add(new Roka());
+            palya[x, y].SetRoka();
         }
+
+
 
         public void PalyaElkeszites()
         {
@@ -49,7 +53,7 @@ namespace GameOfLife
                 {
                     int rolled = rnd.Next(0, 5);
 
-                    palya[x,y] = new List<object>();
+                    palya[x,y] = new Cella();
 
                     FuHozzaadas(x,y);
 
@@ -65,6 +69,8 @@ namespace GameOfLife
             }
         }
 
+
+
         public void PalyaMegjelenites()
         {
             Console.Clear();
@@ -74,17 +80,17 @@ namespace GameOfLife
                 Console.WriteLine();
                 for (int y = 0; y < PalyaMeretY; y++)
                 {
-                    if (palya[x, y].Exists(x => x is Roka))
+                    if (palya[x, y].HasRoka())
                     {
                         Console.Write("R ");
                     }
-                    else if (palya[x, y].Exists(x => x is Nyul))
+                    else if (palya[x, y].HasNyul())
                     {
                         Console.Write("N ");
                     }
-                    else if (palya[x, y].Exists(x => x is Fu))
+                    else if (palya[x, y].HasFu())
                     {
-                        Fu fu = (Fu) palya[x, y].First(x => x is Fu);
+                        Fu fu = palya[x, y].Fu;
 
                         if (fu.Tapertek == 0)
                         {
@@ -107,23 +113,25 @@ namespace GameOfLife
             Console.WriteLine("\n");
         }
 
+
+
         public void PalyaValtoztatasok()
         {
             for (int x = 0; x < PalyaMeretX; x++)
             {
                 for (int y = 0; y < PalyaMeretY; y++)
                 {
-                    if (palya[x, y].Exists(x => x is Fu))
+                    if (palya[x, y].HasFu())
                     {
                         FuValtoztatasok(x, y);
                     }
 
-                    if (palya[x, y].Exists(x => x is Nyul))
+                    if (palya[x, y].HasNyul())
                     {
                         NyulValtoztatasok(x, y);
                     }
 
-                    if (palya[x, y].Exists(x => x is Roka))
+                    if (palya[x, y].HasRoka())
                     {
                         RokaValtoztatasok(x, y);
                     }
@@ -132,20 +140,24 @@ namespace GameOfLife
             }
         }
 
+
+
         public void FuValtoztatasok(int x, int y)
         {
-            Fu fu = (Fu)palya[x, y].First(x => x is Fu);
+            Fu fu = palya[x,y].Fu;
             fu.NovekedesiAllapotvaltozasNoveles();
         }
 
         public void NyulValtoztatasok(int x, int y)
         {
-            // Nyúl változtatások
+            Nyul nyul = palya[x, y].Nyul;
+            // action
         }
 
         public void RokaValtoztatasok(int x, int y)
         {
-            // Róka változtatások
+            Roka roka = palya[x, y].Roka;
+            // action
         }
     }
 }
