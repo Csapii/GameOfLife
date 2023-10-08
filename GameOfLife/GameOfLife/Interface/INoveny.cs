@@ -10,6 +10,7 @@ namespace GameOfLife
     {
         string NovekedesiAllapot { get; set; }
         int Tapertek { get; }
+        int Azonosito { get; }
 
         void NovekedesiAllapotBeallitas();
         void TapertekBeallitas();
