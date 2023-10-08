@@ -68,5 +68,14 @@ namespace GameOfLife
             return false;
         }
 
+
+        public void Taplalkozas()
+        {
+            if (JollakottsagiSzint > 0)
+            {
+                Console.WriteLine($"A róka ({Azonosito}) táplálkozik.");
+                JollakottsagiSzintCsokkentese();
+            }
+        }
     }
 }
