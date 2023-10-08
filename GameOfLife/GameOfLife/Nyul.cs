@@ -11,23 +11,20 @@ namespace GameOfLife
     {
 
         public int Tapertek = 3;
-        public int jollakottsagiSzint;
-        static int azonositohozSzamlalo = 0;
-        public int Azonosito { get; set; }
+     
+        private static int azonositohozSzamlalo = 1;
+        public int Azonosito { get; } = azonositohozSzamlalo++;
 
         public Nyul(int jollakottsagiSzint)
         {
             JollakottsagiSzint = jollakottsagiSzint;
-            azonositohozSzamlalo++;
-            Azonosito = azonositohozSzamlalo;
         }
         public Nyul()
         {
             ((IAllat)this).JollakottsagiSzintBeallitas();
-            azonositohozSzamlalo++;
-            Azonosito = azonositohozSzamlalo;
         }
 
+        private int jollakottsagiSzint;
         public int JollakottsagiSzint 
         { 
             get 

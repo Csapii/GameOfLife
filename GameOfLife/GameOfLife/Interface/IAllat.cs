@@ -10,7 +10,7 @@ namespace GameOfLife.Interface
     {
         int JollakottsagiSzint { get; set; }
 
-        int Azonosito { get; set; }
+        int Azonosito { get;}
         bool JollakottsagiSzintNovelese(int egyseg);
         bool JollakottsagiSzintCsokkentese();
         void Taplalkozas();
