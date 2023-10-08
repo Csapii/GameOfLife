@@ -77,5 +77,13 @@ namespace GameOfLife
                 JollakottsagiSzintCsokkentese();
             }
         }
+        public void Elpusztulas()
+        {
+            if (JollakottsagiSzint <= 0)
+            {
+                Console.WriteLine($"A róka ({Azonosito}) elpusztult.");
+            }
+        }
+
     }
 }
