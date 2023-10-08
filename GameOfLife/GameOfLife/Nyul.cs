@@ -11,7 +11,7 @@ namespace GameOfLife
     {
 
         public int Tapertek = 3;
-        public int jollakottsagiSzint;
+     
         private static int azonositohozSzamlalo = 1;
         public int Azonosito { get; } = azonositohozSzamlalo++;
 
@@ -24,6 +24,7 @@ namespace GameOfLife
             ((IAllat)this).JollakottsagiSzintBeallitas();
         }
 
+        private int jollakottsagiSzint;
         public int JollakottsagiSzint 
         { 
             get 
