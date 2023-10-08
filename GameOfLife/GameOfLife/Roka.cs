@@ -93,5 +93,15 @@ namespace GameOfLife
             }
         }
 
+        public bool Szaporodas()
+        {
+            if (JollakottsagiSzint >= 5)
+            {
+                Console.WriteLine($"A róka ({Azonosito}) szaporodik.");
+                JollakottsagiSzintCsokkentese();
+                return true;
+            }
+            return false;
+        }
     }
 }
