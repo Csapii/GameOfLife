@@ -19,6 +19,9 @@ namespace GameOfLife
             ((INoveny)this).TapertekBeallitas();
         }
 
+        private static int azonositohozSzamlalo = 0;
+        public int Azonosito { get; } = ++azonositohozSzamlalo;
+
         private string? novekedesiAllapot;
         public string NovekedesiAllapot
         {
