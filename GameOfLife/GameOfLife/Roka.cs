@@ -84,6 +84,14 @@ namespace GameOfLife
                 Console.WriteLine($"A róka ({Azonosito}) elpusztult.");
             }
         }
+        public void Mozgas()
+        {
+            if (JollakottsagiSzint > 0)
+            {
+                Console.WriteLine($"A róka ({Azonosito}) mozog.");
+                JollakottsagiSzintCsokkentese();
+            }
+        }
 
     }
 }
