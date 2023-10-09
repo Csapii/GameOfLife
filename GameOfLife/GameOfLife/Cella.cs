@@ -10,11 +10,11 @@ namespace GameOfLife
     {
 
 
-        public Roka Roka { get; private set; }
+        public Roka? Roka { get; private set; }
 
-        public Nyul Nyul { get; private set; }
+        public Nyul? Nyul { get; private set; }
 
-        public Fu Fu { get; private set; }
+        public Fu? Fu { get; private set; }
 
 
 
@@ -23,7 +23,7 @@ namespace GameOfLife
         {
             if (Roka == null)
             {
-                //Roka == new Roka();
+                Roka = new Roka();
             }
         }
 
@@ -40,6 +40,22 @@ namespace GameOfLife
             if (Fu == null)
             {
                 Fu = new Fu();
+            }
+        }
+
+        public void RemoveRoka()
+        {
+            if (Roka != null)
+            {
+                Roka = null;
+            }
+        }
+
+        public void RemoveNyul()
+        {
+            if (Nyul != null)
+            {
+                Nyul = null;
             }
         }
 
