@@ -8,5 +8,10 @@ namespace GameOfLife
 {
     internal class Megjelenites
     {
+
+
+        // Refactor Szimulacio.cs
+
+
     }
 }
