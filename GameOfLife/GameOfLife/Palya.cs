@@ -123,17 +123,17 @@ namespace GameOfLife
                 {
                     if (palya[x, y].HasFu())
                     {
-                        FuValtoztatasok(x, y);
+                        FuValtoztatasok(palya[x,y]);
                     }
 
                     if (palya[x, y].HasNyul())
                     {
-                        NyulValtoztatasok(x, y);
+                        NyulValtoztatasok(palya[x, y]);
                     }
 
                     if (palya[x, y].HasRoka())
                     {
-                        RokaValtoztatasok(x, y);
+                        RokaValtoztatasok(palya[x, y]);
                     }
 
                 }
@@ -142,22 +142,33 @@ namespace GameOfLife
 
 
 
-        public void FuValtoztatasok(int x, int y)
+        public void FuValtoztatasok(Cella cella)
         {
-            Fu fu = palya[x,y].Fu;
-            fu.NovekedesiAllapotvaltozasNoveles();
+            if (!cella.HasNyul() && !cella.HasRoka()) { cella.Fu.NovekedesiAllapotvaltozasNoveles(); }
         }
 
-        public void NyulValtoztatasok(int x, int y)
+        public void NyulValtoztatasok(Cella cella)
         {
-            Nyul nyul = palya[x, y].Nyul;
-            // action
+            if (cella.Nyul.JollakottsagiSzintCsokkentese())
+            {
+                // action
+            } else {
+                cella.RemoveNyul();
+            }
+
         }
 
-        public void RokaValtoztatasok(int x, int y)
+        public void RokaValtoztatasok(Cella cella)
         {
-            Roka roka = palya[x, y].Roka;
-            // action
+            if (cella.Roka.JollakottsagiSzintCsokkentese())
+            {
+                // action
+            } else {
+                cella.RemoveRoka();
+            }
         }
+
+
+
     }
 }
