@@ -103,7 +103,7 @@ namespace GameOfLife
             }
             return false;
         }
-
+        
         public void Taplalkozas(Cella cella)
         {
             throw new NotImplementedException();
