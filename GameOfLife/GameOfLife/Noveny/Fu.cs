@@ -98,14 +98,14 @@ namespace GameOfLife
         {
             if (NovekedesiAllapot == "Kifejlett fűcsomó")
             {
-                NovekedesiAllapot = "Zsenge fű";
+                ((INoveny)this).TapertekCsokkentes();
                 ((INoveny)this).TapertekCsokkentes();
             }
             else if (NovekedesiAllapot == "Zsenge fű")
             {
-                NovekedesiAllapot = "Fűkezdemény";
                 ((INoveny)this).TapertekCsokkentes();
             }
+            NovekedesiAllapot = "Fűkezdemény";
         }
         void INoveny.TapertekNoveles()
         {
