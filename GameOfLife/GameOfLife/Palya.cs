@@ -10,11 +10,13 @@ namespace GameOfLife
     internal class Palya
     {
 
-        private int PalyaMeretX { get; init; }
+        public int PalyaMeretX { get; init; }
 
-        private int PalyaMeretY { get; init; }
+        public int PalyaMeretY { get; init; }
 
-        private readonly Cella[,] palya;
+        public readonly Cella[,] palya;
+
+        private readonly Random rnd;
 
         private readonly Random rnd;
 
@@ -25,8 +27,6 @@ namespace GameOfLife
             palya = new Cella[palyaMeretX, palyaMeretY];
             rnd = new Random();
         }
-
-
 
         public void FuHozzaadas(int x, int y)
         {
@@ -53,7 +53,7 @@ namespace GameOfLife
                 {
                     int rolled = rnd.Next(0, 5);
 
-                    palya[x,y] = new Cella();
+                    palya[x,y] = new Cella(x,y);
 
                     FuHozzaadas(x,y);
 
@@ -147,8 +147,21 @@ namespace GameOfLife
             if (!cella.HasNyul() && !cella.HasRoka()) { cella.Fu.NovekedesiAllapotvaltozasNoveles(); }
         }
 
+
+
         public void NyulValtoztatasok(Cella cella)
         {
+
+            /* 1. A nyúl táplálkozik
+             * 2. Ha nyúl mellett áll és tele van, akkor szaparodik
+             * 3. Ha nem szaparodott, akkor elmozdul
+             * 4. Tápérték lemegy
+            */
+
+            cella.Nyul.Taplalkozas(cella);
+
+            cella.Nyul.Szaporodas(this, cella);
+
             if (cella.Nyul.JollakottsagiSzintCsokkentese())
             {
                 // action
@@ -157,6 +170,8 @@ namespace GameOfLife
             }
 
         }
+
+
 
         public void RokaValtoztatasok(Cella cella)
         {
@@ -169,6 +184,6 @@ namespace GameOfLife
         }
 
 
-
+        
     }
 }
