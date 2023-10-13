@@ -15,8 +15,7 @@ namespace GameOfLife.Interface
         bool JollakottsagiSzintCsokkentese();
         void Taplalkozas(Cella cella);
         void Mozgas();
-        bool Szaporodas(Palya palyaClass, Cella cella);
-        void Elpusztulas();
+        List<Cella> Szaporodas(Palya palyaClass, Cella cella);
         void JollakottsagiSzintBeallitas();
     }
 }
