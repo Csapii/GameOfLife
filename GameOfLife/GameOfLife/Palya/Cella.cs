@@ -27,7 +27,7 @@ namespace GameOfLife
         }
 
 
-        public void SetRoka()
+        public void SetRoka(Roka nyul = null!)
         {
             Roka ??= new Roka();
         }
