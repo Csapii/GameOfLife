@@ -22,7 +22,7 @@ namespace GameOfLife
             ((IAllat)this).JollakottsagiSzintBeallitas();
         }
 
-        private int jollakottsagiSzint = 10;
+        private int jollakottsagiSzint;
         public int JollakottsagiSzint
         {
             get
@@ -31,7 +31,7 @@ namespace GameOfLife
             }
             set
             {
-                if (value >= 0 && value <= 10)
+                if (value > 0 && value <= 10)
                 {
                     jollakottsagiSzint = value;
                 }
@@ -45,7 +45,7 @@ namespace GameOfLife
         void IAllat.JollakottsagiSzintBeallitas()
         {
             Random rnd = new();
-            int veletlenszam = rnd.Next(0, 11);
+            int veletlenszam = rnd.Next(1, 10 + 1);
 
             JollakottsagiSzint = veletlenszam;
         }
@@ -71,35 +71,13 @@ namespace GameOfLife
 
         public void Taplalkozas(Cella cella)
         {
-            if (JollakottsagiSzint > 0)
-            {
-                Console.WriteLine($"A róka ({Azonosito}) táplálkozik.");
-                JollakottsagiSzintCsokkentese();
-            }
-        }
-        public void Elpusztulas()
-        {
-            if (JollakottsagiSzint <= 0)
-            {
-                Console.WriteLine($"A róka ({Azonosito}) elpusztult.");
-            }
+
         }
         public void Mozgas()
         {
-            if (JollakottsagiSzint > 0)
-            {
-                Console.WriteLine($"A róka ({Azonosito}) mozog.");
-                JollakottsagiSzintCsokkentese();
-            }
-        }
 
+        }
         public List<Cella> Szaporodas(Palya palyaClass, Cella cella) {
-            if (JollakottsagiSzint >= 5)
-            {
-                Console.WriteLine($"A róka ({Azonosito}) szaporodik.");
-                JollakottsagiSzintCsokkentese();
-                return new List<Cella>();
-            }
             return new List<Cella>();
         }
     }
