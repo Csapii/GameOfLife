@@ -16,7 +16,6 @@ namespace GameOfLife.Interface
         void Taplalkozas();
         void Mozgas();
         bool Szaporodas();
-        void Elpusztulas();
         void JollakottsagiSzintBeallitas();
     }
 }
