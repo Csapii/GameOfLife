@@ -178,7 +178,7 @@ namespace GameOfLife
                 cella.Nyul.Mozgas();
             }
 
-            if (cella.Nyul.JollakottsagiSzintCsokkentese())
+            if (!cella.Nyul.JollakottsagiSzintCsokkentese())
             {
                 cella.RemoveNyul();
             }
@@ -188,7 +188,7 @@ namespace GameOfLife
 
         public void RokaValtoztatasok(Cella cella)
         {
-            if (cella.Roka!.JollakottsagiSzintCsokkentese())
+            if (!cella.Roka!.JollakottsagiSzintCsokkentese())
             {
                 cella.RemoveRoka();
             }
