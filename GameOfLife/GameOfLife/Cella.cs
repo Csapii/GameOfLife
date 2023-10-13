@@ -35,7 +35,7 @@ namespace GameOfLife
             }
         }
 
-        public void SetNyul()
+        public void SetNyul(Nyul nyul = null! )
         {
             if (Nyul == null)
             {
