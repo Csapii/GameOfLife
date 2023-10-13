@@ -29,26 +29,17 @@ namespace GameOfLife
 
         public void SetRoka()
         {
-            if (Roka == null)
-            {
-                Roka = new Roka();
-            }
+            Roka ??= new Roka();
         }
 
         public void SetNyul(Nyul nyul = null! )
         {
-            if (Nyul == null)
-            {
-                Nyul = new Nyul();
-            }
+            Nyul ??= new Nyul();
         }
 
         public void SetFu()
         {
-            if (Fu == null)
-            {
-                Fu = new Fu();
-            }
+            Fu ??= new Fu();
         }
 
         public void RemoveRoka()
