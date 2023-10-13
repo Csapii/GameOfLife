@@ -7,7 +7,7 @@ int palyaMeretY = Convert.ToInt32(Console.ReadLine());
 Console.Write("\nAdja meg a körök számát: ");
 int korokSzama = Convert.ToInt32(Console.ReadLine());
 
-Palya palya = new Palya(palyaMeretX, palyaMeretY);
-Szimulacio szimulacio = new Szimulacio(palya, korokSzama);
+Palya palya = new (palyaMeretX, palyaMeretY);
+Szimulacio szimulacio = new (palya, korokSzama);
 
 szimulacio.SzimulacioInditas();

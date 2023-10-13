@@ -90,7 +90,7 @@ namespace GameOfLife
                     }
                     else if (palya[x, y].HasFu())
                     {
-                        Fu fu = palya[x, y].Fu;
+                        Fu fu = palya[x, y].Fu!;
 
                         if (fu.Tapertek == 0)
                         {
@@ -123,17 +123,17 @@ namespace GameOfLife
                 {
                     if (palya[x, y].HasFu())
                     {
-                        FuValtoztatasok(x, y);
+                        FuValtoztatasok(palya[x, y]);
                     }
 
                     if (palya[x, y].HasNyul())
                     {
-                        NyulValtoztatasok(x, y);
+                        NyulValtoztatasok(palya[x, y]);
                     }
 
                     if (palya[x, y].HasRoka())
                     {
-                        RokaValtoztatasok(x, y);
+                        RokaValtoztatasok(palya[x, y]);
                     }
 
                 }
@@ -142,9 +142,9 @@ namespace GameOfLife
 
 
 
-        public void FuValtoztatasok(Cella cella)
+        public static void FuValtoztatasok(Cella cella)
         {
-            if (!cella.HasNyul() && !cella.HasRoka()) { cella.Fu.NovekedesiAllapotvaltozasNoveles(); }
+            if (!cella.HasNyul() && !cella.HasRoka()) { cella.Fu!.NovekedesiAllapotvaltozasNoveles(); }
         }
 
 
@@ -158,7 +158,7 @@ namespace GameOfLife
              * 4. Tápérték lemegy
             */
 
-            if (cella.Nyul.MostSzuletett) { cella.Nyul.MostSzuletett = false; return; }
+            if (cella.Nyul!.MostSzuletett) { cella.Nyul.MostSzuletett = false; return; }
 
             cella.Nyul.Taplalkozas(cella);
 
@@ -178,7 +178,7 @@ namespace GameOfLife
                 cella.Nyul.Mozgas();
             }
 
-            if (cella.Nyul.JollakottsagiSzintCsokkentese())
+            if (!cella.Nyul.JollakottsagiSzintCsokkentese())
             {
                 cella.RemoveNyul();
             }
@@ -186,9 +186,9 @@ namespace GameOfLife
 
 
 
-        public void RokaValtoztatasok(Cella cella)
+        public static void RokaValtoztatasok(Cella cella)
         {
-            if (cella.Roka.JollakottsagiSzintCsokkentese())
+            if (!cella.Roka!.JollakottsagiSzintCsokkentese())
             {
                 cella.RemoveRoka();
             }
