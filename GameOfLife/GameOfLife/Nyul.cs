@@ -10,6 +10,10 @@ namespace GameOfLife
     internal class Nyul : IAllat
     {
 
+        public bool MostSzaporodott = false;
+
+        public bool MostSzuletett = false;
+        
         public int Tapertek = 3;
      
         private static int azonositohozSzamlalo = 1;
@@ -60,6 +64,9 @@ namespace GameOfLife
             }
             return false;
         }
+
+
+
         public bool JollakottsagiSzintCsokkentese()
         {
             if (JollakottsagiSzint > 0)
@@ -139,6 +146,7 @@ namespace GameOfLife
                 && !palyaClass.palya[cella.X - 1, cella.Y + 1].HasNyul()
                 && !palyaClass.palya[cella.X - 1, cella.Y + 1].HasRoka())
             {
+
                 kozeliUresCellak.Add(palyaClass.palya[cella.X - 1, cella.Y + 1]);
             } // Jobb felső scan
 
@@ -169,7 +177,17 @@ namespace GameOfLife
                 babaCella
             };
 
-            return visszaadott;
+            return visszaadott;    
+        }
+
+        public void Taplalkozas(Cella cella)
+        {
+            int egyseg = cella.Fu.Tapertek;
+            if (JollakottsagiSzint + egyseg < 6 && egyseg > 0)
+            {
+                jollakottsagiSzint += egyseg;
+                cella.Fu.NovekedesiAllapotvaltozasCsokkentes();
+            }
         }
     }
 }
