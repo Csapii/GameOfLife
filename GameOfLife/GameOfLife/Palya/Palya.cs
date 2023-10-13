@@ -82,16 +82,18 @@ namespace GameOfLife
                 {
                     if (palya[x, y].HasRoka())
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("R ");
                     }
                     else if (palya[x, y].HasNyul())
                     {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write("N ");
                     }
                     else if (palya[x, y].HasFu())
                     {
                         Fu fu = palya[x, y].Fu!;
-
+                        Console.ForegroundColor = ConsoleColor.Green;
                         if (fu.Tapertek == 0)
                         {
                             Console.Write(". ");
@@ -109,7 +111,7 @@ namespace GameOfLife
                     }
                 }
             }
-
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\n");
         }
 
@@ -153,14 +155,20 @@ namespace GameOfLife
         {
 
             /* 1. A nyúl táplálkozik
-             * 2. Ha nyúl mellett áll és tele van, akkor szaparodik
-             * 3. Ha nem szaparodott, akkor elmozdul
+             * 2. Ha nyúl mellett áll és tele van, akkor szaporodik
+             * 3. Ha nem szaporodott, akkor megpróbál elmozdulni
              * 4. Tápérték lemegy
             */
 
+            // 0. lépés
+
             if (cella.Nyul!.MostSzuletett) { cella.Nyul.MostSzuletett = false; return; }
 
-            cella.Nyul.Taplalkozas(cella);
+            // 1. lépés
+
+            cella.Nyul.Taplalkozas(this, cella);
+
+            // 2. lépés
 
             List<Cella> szaporodas;
 
@@ -169,16 +177,28 @@ namespace GameOfLife
                 szaporodas = cella.Nyul.Szaporodas(this, cella);
             } else { cella.Nyul.MostSzaporodott = false; szaporodas = new List<Cella>(); }
 
+
             if (szaporodas.Count != 0)
             {
                 palya[szaporodas[0].X, szaporodas[0].Y] = szaporodas[0];
                 palya[szaporodas[1].X, szaporodas[1].Y] = szaporodas[1];
-            } else
-            {
-                cella.Nyul.Mozgas();
+                return;
             }
 
-            if (!cella.Nyul.JollakottsagiSzintCsokkentese())
+            // 3. lépés
+
+            Cella lepettCella = cella.Nyul.Mozgas(this, cella);
+
+            if (lepettCella != null)
+            {
+                lepettCella.SetNyul(palya[cella.X, cella.Y].Nyul!);
+                palya[cella.X, cella.Y].RemoveNyul();
+                cella = lepettCella;
+            }
+
+            // 4. lépés
+
+            if (!cella.Nyul!.JollakottsagiSzintCsokkentese())
             {
                 cella.RemoveNyul();
             }
@@ -188,8 +208,75 @@ namespace GameOfLife
 
         public void RokaValtoztatasok(Cella cella)
         {
+
+            /* 1. A róka megpróbál táplálkozni
+             * 2. Ha nem táplálkozott, elmozdul
+             * 3. Ha róka mellett áll és nem éhes, akkor szaporodik
+             * 4. Ha nem szaporodott, akkor megpróbál elmozdulni
+             * 5. Tápérték lemegy
+            */
+
+            // 0. lépés
+
+            if (cella.Roka!.MostSzuletett) { cella.Roka.MostSzuletett = false; return; }
+
+            // 1. lépés
+
+            Cella preda = cella.Roka.Taplalkozas(this, cella);
+            Cella lepettCella;
+
+            if (preda.X != -999)
+            {
+                palya[preda.X, preda.Y].RemoveNyul();
+                palya[preda.X, preda.Y].SetRoka(cella.Roka);
+                cella.RemoveRoka();
+                cella = preda;
+
+            } else // 2. lépés
+            {
+                lepettCella = cella.Roka.Mozgas(this, cella);
+                if (lepettCella != null)
+                {
+                    lepettCella.SetRoka(palya[cella.X, cella.Y].Roka!);
+                    palya[cella.X, cella.Y].RemoveRoka();
+                    cella = lepettCella;
+                }
+            }
+
+            // 3. lépés
+
+            List<Cella> szaporodas;
+
+            if (!cella.Roka!.MostSzaporodott && cella.Roka.JollakottsagiSzint > 7)
+            {
+                szaporodas = cella.Roka.Szaporodas(this, cella);
+            }
+            else { cella.Roka.MostSzaporodott = false; szaporodas = new List<Cella>(); }
+
+
+            if (szaporodas.Count != 0)
+            {
+                palya[szaporodas[0].X, szaporodas[0].Y] = szaporodas[0];
+                palya[szaporodas[1].X, szaporodas[1].Y] = szaporodas[1];
+                return;
+            }
+
+            // 4. lépés
+
+            lepettCella = cella.Roka.Mozgas(this, cella);
+
+            if (lepettCella != null)
+            {
+                lepettCella.SetRoka(palya[cella.X, cella.Y].Roka!);
+                palya[cella.X, cella.Y].RemoveRoka();
+                cella = lepettCella;
+            }
+
+            // 5. lépés
+
             if (!cella.Roka!.JollakottsagiSzintCsokkentese())
             {
+                Console.WriteLine("removed");
                 cella.RemoveRoka();
             }
         }
