@@ -276,7 +276,6 @@ namespace GameOfLife
 
             if (!cella.Roka!.JollakottsagiSzintCsokkentese())
             {
-                Console.WriteLine("removed");
                 cella.RemoveRoka();
             }
         }
