@@ -93,8 +93,7 @@ namespace GameOfLife
             }
         }
 
-        public List<Cella> Szaporodas(Palya palyaClass, Cella cella)
-        {
+        public List<Cella> Szaporodas(Palya palyaClass, Cella cella) {
             if (JollakottsagiSzint >= 5)
             {
                 Console.WriteLine($"A róka ({Azonosito}) szaporodik.");
@@ -102,16 +101,6 @@ namespace GameOfLife
                 return new List<Cella>();
             }
             return new List<Cella>();
-        }
-        
-        public void Taplalkozas(Cella cella)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Szaporodas(Palya palyaClass, Cella cella)
-        {
-            throw new NotImplementedException();
         }
     }
 }
