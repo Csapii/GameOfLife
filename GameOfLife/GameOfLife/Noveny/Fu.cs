@@ -51,7 +51,7 @@ namespace GameOfLife
         void INoveny.NovekedesiAllapotBeallitas()
         {
             Random rnd = new();
-            int veletlenszam = rnd.Next(0, 3 + 1);
+            int veletlenszam = rnd.Next(0, 2 + 1);
 
             if (veletlenszam == 0)
             {
@@ -83,12 +83,12 @@ namespace GameOfLife
         }
         public void NovekedesiAllapotvaltozasNoveles()
         {
-            if (NovekedesiAllapot == "Fűkezdemény")
+            if (Tapertek == 0)
             {
                 NovekedesiAllapot = "Zsenge fű";
                 ((INoveny)this).TapertekNoveles();
             }
-            else if (NovekedesiAllapot == "Zsenge fű")
+            else if (Tapertek == 1)
             {
                 NovekedesiAllapot = "Kifejlett fűcsomó";
                 ((INoveny)this).TapertekNoveles();
@@ -96,12 +96,12 @@ namespace GameOfLife
         }
         public void NovekedesiAllapotvaltozasCsokkentes()
         {
-            if (NovekedesiAllapot == "Kifejlett fűcsomó")
+            if (Tapertek == 2)
             {
                 ((INoveny)this).TapertekCsokkentes();
                 ((INoveny)this).TapertekCsokkentes();
             }
-            else if (NovekedesiAllapot == "Zsenge fű")
+            else if (Tapertek == 1)
             {
                 ((INoveny)this).TapertekCsokkentes();
             }
