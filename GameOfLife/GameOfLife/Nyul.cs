@@ -79,13 +79,13 @@ namespace GameOfLife
 
         public void Mozgas()
         {
-            //
+            // mozgas
         }
 
         public List<Cella> Szaporodas(Palya palyaClass, Cella cella)
         {
-            List<Cella> kozeliNyulCellak = new List<Cella>();
-            List<Cella> kozeliUresCellak = new List<Cella>();
+            List<Cella> kozeliNyulCellak = new ();
+            List<Cella> kozeliUresCellak = new ();
             Cella adott;
 
             if (cella.X - 1 >= 0) {
@@ -161,7 +161,7 @@ namespace GameOfLife
             
             // Nyúl születik, állapotok megváltoztatása
 
-            Random rnd = new Random();
+            Random rnd = new ();
 
             Cella partnerCella = kozeliNyulCellak[rnd.Next(0, kozeliNyulCellak.Count)];
             Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
@@ -171,7 +171,7 @@ namespace GameOfLife
             babaCella.SetNyul();
             babaCella.Nyul!.MostSzuletett = true;
 
-            List<Cella> visszaadott = new List<Cella>
+            List<Cella> visszaadott = new ()
             {
                 partnerCella,
                 babaCella
@@ -182,7 +182,7 @@ namespace GameOfLife
 
         public void Taplalkozas(Cella cella)
         {
-            int egyseg = cella.Fu.Tapertek;
+            int egyseg = cella.Fu!.Tapertek;
             if (JollakottsagiSzint + egyseg < 6 && egyseg > 0)
             {
                 jollakottsagiSzint += egyseg;
