@@ -14,9 +14,7 @@ namespace GameOfLife
 
         public int PalyaMeretY { get; init; }
 
-        public readonly Cella[,] palya;
-
-        private readonly Random rnd;
+        public Cella[,] palya;
 
         private readonly Random rnd;
 
@@ -27,6 +25,8 @@ namespace GameOfLife
             palya = new Cella[palyaMeretX, palyaMeretY];
             rnd = new Random();
         }
+
+
 
         public void FuHozzaadas(int x, int y)
         {
@@ -123,17 +123,17 @@ namespace GameOfLife
                 {
                     if (palya[x, y].HasFu())
                     {
-                        FuValtoztatasok(palya[x,y]);
+                        FuValtoztatasok(x, y);
                     }
 
                     if (palya[x, y].HasNyul())
                     {
-                        NyulValtoztatasok(palya[x, y]);
+                        NyulValtoztatasok(x, y);
                     }
 
                     if (palya[x, y].HasRoka())
                     {
-                        RokaValtoztatasok(palya[x, y]);
+                        RokaValtoztatasok(x, y);
                     }
 
                 }
@@ -158,17 +158,30 @@ namespace GameOfLife
              * 4. Tápérték lemegy
             */
 
+            if (cella.Nyul.MostSzuletett) { cella.Nyul.MostSzuletett = false; return; }
+
             cella.Nyul.Taplalkozas(cella);
 
-            cella.Nyul.Szaporodas(this, cella);
+            List<Cella> szaporodas;
+
+            if (!cella.Nyul.MostSzaporodott && cella.Nyul.JollakottsagiSzint > 4)
+            {
+                szaporodas = cella.Nyul.Szaporodas(this, cella);
+            } else { cella.Nyul.MostSzaporodott = false; szaporodas = new List<Cella>(); }
+
+            if (szaporodas.Count != 0)
+            {
+                palya[szaporodas[0].X, szaporodas[0].Y] = szaporodas[0];
+                palya[szaporodas[1].X, szaporodas[1].Y] = szaporodas[1];
+            } else
+            {
+                cella.Nyul.Mozgas();
+            }
 
             if (cella.Nyul.JollakottsagiSzintCsokkentese())
             {
-                // action
-            } else {
                 cella.RemoveNyul();
             }
-
         }
 
 
@@ -177,13 +190,8 @@ namespace GameOfLife
         {
             if (cella.Roka.JollakottsagiSzintCsokkentese())
             {
-                // action
-            } else {
                 cella.RemoveRoka();
             }
         }
-
-
-        
     }
 }
