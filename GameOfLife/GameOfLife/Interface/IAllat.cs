@@ -13,9 +13,9 @@ namespace GameOfLife.Interface
         int Azonosito { get;}
         bool JollakottsagiSzintNovelese(int egyseg);
         bool JollakottsagiSzintCsokkentese();
-        void Taplalkozas();
+        void Taplalkozas(Cella cella);
         void Mozgas();
-        bool Szaporodas();
+        List<Cella> Szaporodas(Palya palyaClass, Cella cella);
         void JollakottsagiSzintBeallitas();
     }
 }
