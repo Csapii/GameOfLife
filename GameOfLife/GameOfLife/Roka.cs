@@ -69,7 +69,7 @@ namespace GameOfLife
         }
 
 
-        public void Taplalkozas()
+        public void Taplalkozas(Cella cella)
         {
             if (JollakottsagiSzint > 0)
             {
