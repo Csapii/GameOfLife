@@ -10,11 +10,13 @@ namespace GameOfLife
     internal class Palya
     {
 
-        private int PalyaMeretX { get; init; }
+        public int PalyaMeretX { get; init; }
 
-        private int PalyaMeretY { get; init; }
+        public int PalyaMeretY { get; init; }
 
-        private readonly Cella[,] palya;
+        public readonly Cella[,] palya;
+
+        private readonly Random rnd;
 
         private readonly Random rnd;
 
@@ -25,8 +27,6 @@ namespace GameOfLife
             palya = new Cella[palyaMeretX, palyaMeretY];
             rnd = new Random();
         }
-
-
 
         public void FuHozzaadas(int x, int y)
         {
@@ -53,7 +53,7 @@ namespace GameOfLife
                 {
                     int rolled = rnd.Next(0, 5);
 
-                    palya[x,y] = new Cella();
+                    palya[x,y] = new Cella(x,y);
 
                     FuHozzaadas(x,y);
 
@@ -123,17 +123,17 @@ namespace GameOfLife
                 {
                     if (palya[x, y].HasFu())
                     {
-                        FuValtoztatasok(x, y);
+                        FuValtoztatasok(palya[x,y]);
                     }
 
                     if (palya[x, y].HasNyul())
                     {
-                        NyulValtoztatasok(x, y);
+                        NyulValtoztatasok(palya[x, y]);
                     }
 
                     if (palya[x, y].HasRoka())
                     {
-                        RokaValtoztatasok(x, y);
+                        RokaValtoztatasok(palya[x, y]);
                     }
 
                 }
@@ -142,22 +142,48 @@ namespace GameOfLife
 
 
 
-        public void FuValtoztatasok(int x, int y)
+        public void FuValtoztatasok(Cella cella)
         {
-            Fu fu = palya[x,y].Fu;
-            fu.NovekedesiAllapotvaltozasNoveles();
+            if (!cella.HasNyul() && !cella.HasRoka()) { cella.Fu.NovekedesiAllapotvaltozasNoveles(); }
         }
 
-        public void NyulValtoztatasok(int x, int y)
+
+
+        public void NyulValtoztatasok(Cella cella)
         {
-            Nyul nyul = palya[x, y].Nyul;
-            // action
+
+            /* 1. A nyúl táplálkozik
+             * 2. Ha nyúl mellett áll és tele van, akkor szaparodik
+             * 3. Ha nem szaparodott, akkor elmozdul
+             * 4. Tápérték lemegy
+            */
+
+            cella.Nyul.Taplalkozas(cella);
+
+            cella.Nyul.Szaporodas(this, cella);
+
+            if (cella.Nyul.JollakottsagiSzintCsokkentese())
+            {
+                // action
+            } else {
+                cella.RemoveNyul();
+            }
+
         }
 
-        public void RokaValtoztatasok(int x, int y)
+
+
+        public void RokaValtoztatasok(Cella cella)
         {
-            Roka roka = palya[x, y].Roka;
-            // action
+            if (cella.Roka.JollakottsagiSzintCsokkentese())
+            {
+                // action
+            } else {
+                cella.RemoveRoka();
+            }
         }
+
+
+        
     }
 }
