@@ -64,9 +64,6 @@ namespace GameOfLife
             }
             return false;
         }
-
-
-
         public bool JollakottsagiSzintCsokkentese()
         {
             if (JollakottsagiSzint > 0)
@@ -77,10 +74,31 @@ namespace GameOfLife
             return false;
         }
 
-        public void Mozgas()
+
+
+        public Cella Mozgas(Palya palyaClass, Cella cella)
         {
-            // mozgas
+            List<Cella> lephetoCella = new ();
+            for (int x = cella.X - 1; x < cella.X + 2; x++)
+            {
+                for (int y = cella.Y - 1; y < cella.Y + 2; y++)
+                {
+                    if (x >= 0 && y >= 0 && x < palyaClass.PalyaMeretX && y < palyaClass.PalyaMeretY
+                        && !palyaClass.palya[x, y].HasNyul() && !palyaClass.palya[x, y].HasRoka())
+                    {
+                        lephetoCella.Add(palyaClass.palya[x, y]);
+                    }
+                }
+            }
+
+            Random rnd = new();
+
+            Cella? lepettCella = lephetoCella.Count > 0 ? lephetoCella[rnd.Next(0, lephetoCella.Count)] : null;
+
+            return lepettCella!;
         }
+
+
 
         public List<Cella> Szaporodas(Palya palyaClass, Cella cella)
         {
@@ -180,7 +198,7 @@ namespace GameOfLife
             return visszaadott;    
         }
 
-        public void Taplalkozas(Cella cella)
+        public Cella Taplalkozas(Palya palyaClass, Cella cella)
         {
             int egyseg = cella.Fu!.Tapertek;
             if (JollakottsagiSzint + egyseg < 6 && egyseg > 0)
@@ -188,6 +206,8 @@ namespace GameOfLife
                 jollakottsagiSzint += egyseg;
                 cella.Fu.NovekedesiAllapotvaltozasCsokkentes();
             }
+
+            return cella;
         }
     }
 }
