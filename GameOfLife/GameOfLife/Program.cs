@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-﻿Console.WriteLine("Hello, World!");
-=======
 using GameOfLife;
 
 Console.Write("Adja meg a pákya vízszintes méretét (cellákban): ");
@@ -14,4 +11,3 @@ Palya palya = new (palyaMeretX, palyaMeretY);
 Szimulacio szimulacio = new (palya, korokSzama);
 
 szimulacio.SzimulacioInditas();
->>>>>>> Stashed changes
