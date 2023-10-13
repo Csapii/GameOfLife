@@ -93,15 +93,15 @@ namespace GameOfLife
             }
         }
 
-        public bool Szaporodas()
+        public List<Cella> Szaporodas(Palya palyaClass, Cella cella)
         {
             if (JollakottsagiSzint >= 5)
             {
                 Console.WriteLine($"A róka ({Azonosito}) szaporodik.");
                 JollakottsagiSzintCsokkentese();
-                return true;
+                return new List<Cella>();
             }
-            return false;
+            return new List<Cella>();
         }
         
         public void Taplalkozas(Cella cella)
