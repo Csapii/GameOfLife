@@ -12,7 +12,7 @@ namespace GameOfLife
 
         public bool MostSzaporodott = false;
 
-        public bool MostSzuletett = false;
+        public bool Atlepheto = false;
         
         public int Tapertek = 3;
      
@@ -187,7 +187,10 @@ namespace GameOfLife
             MostSzaporodott = true;
             partnerCella.Nyul!.MostSzaporodott = true;
             babaCella.SetNyul();
-            babaCella.Nyul!.MostSzuletett = true;
+            if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
+            {
+                babaCella.Nyul!.Atlepheto = true;
+            }
 
             List<Cella> visszaadott = new ()
             {
