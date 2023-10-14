@@ -12,7 +12,7 @@ namespace GameOfLife
 
         public bool MostSzaporodott = false;
 
-        public bool MostSzuletett = false;
+        public bool Atlepheto = false;
 
         private static int azonositohozSzamlalo = 1;
         public int Azonosito { get; } = azonositohozSzamlalo++;
@@ -64,7 +64,7 @@ namespace GameOfLife
         }
         public bool JollakottsagiSzintCsokkentese()
         {
-            if (JollakottsagiSzint > 0)
+            if (JollakottsagiSzint - 1 > 0)
             {
                 jollakottsagiSzint--;
                 return true;
@@ -176,7 +176,7 @@ namespace GameOfLife
 
             if (kozeliUresCellak.Count == 0) { return new List<Cella>(); } // Ha nincs közeli üres cella
 
-            // Nyúl születik, állapotok megváltoztatása
+            // Róka születik, állapotok megváltoztatása
 
             Random rnd = new();
 
@@ -186,7 +186,10 @@ namespace GameOfLife
             MostSzaporodott = true;
             partnerCella.Roka!.MostSzaporodott = true;
             babaCella.SetRoka();
-            babaCella.Roka!.MostSzuletett = true;
+            if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
+            {
+                babaCella.Roka!.Atlepheto = true;
+            }
 
             List<Cella> visszaadott = new()
             {
@@ -202,9 +205,9 @@ namespace GameOfLife
         public Cella Taplalkozas(Palya palyaClass, Cella cella)
         {
             List<Cella> predaLista = new ();
-            for (int x = -2; x < 3; x++)
+            for (int x = cella.X - 2; x < cella.X + 3; x++)
             {
-                for (int y = -2; y < 3; y++)
+                for (int y = cella.Y - 2; y < cella.Y + 3; y++)
                 {
                     if (x >= 0 && x < palyaClass.PalyaMeretX && y >= 0 && y < palyaClass.PalyaMeretY
                         && palyaClass.palya[x, y].HasNyul())
@@ -216,8 +219,9 @@ namespace GameOfLife
 
             Random rnd = new ();
 
-            if (predaLista.Count > 0)
+            if (predaLista.Count > 0 && JollakottsagiSzint + 3 < 11)
             {
+                JollakottsagiSzintNovelese(3);
                 return predaLista[rnd.Next(0, predaLista.Count)];
             } else
             {
