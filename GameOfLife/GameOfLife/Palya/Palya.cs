@@ -162,10 +162,11 @@ namespace GameOfLife
 
             // 0. lépés
 
-            if (cella.Nyul!.MostSzuletett) { cella.Nyul.MostSzuletett = false; return; }
+            if (cella.Nyul!.Atlepheto) { cella.Nyul.Atlepheto = false; return; }
 
             // 1. lépés
 
+            Cella eredetiCella = cella;
             cella.Nyul.Taplalkozas(this, cella);
 
             // 2. lépés
@@ -198,6 +199,11 @@ namespace GameOfLife
 
             // 4. lépés
 
+            if (cella.X > eredetiCella.X || (cella.X == eredetiCella.X && cella.Y > eredetiCella.Y))
+            {
+                cella.Nyul!.Atlepheto = true;
+            }
+
             if (!cella.Nyul!.JollakottsagiSzintCsokkentese())
             {
                 cella.RemoveNyul();
@@ -218,11 +224,12 @@ namespace GameOfLife
 
             // 0. lépés
 
-            if (cella.Roka!.MostSzuletett) { cella.Roka.MostSzuletett = false; return; }
+            if (cella.Roka!.Atlepheto) { cella.Roka.Atlepheto = false; return; }
 
             // 1. lépés
 
             Cella preda = cella.Roka.Taplalkozas(this, cella);
+            Cella eredetiCella = cella;
             Cella lepettCella;
 
             if (preda.X != -999)
@@ -231,7 +238,6 @@ namespace GameOfLife
                 palya[preda.X, preda.Y].SetRoka(cella.Roka);
                 cella.RemoveRoka();
                 cella = preda;
-
             } else // 2. lépés
             {
                 lepettCella = cella.Roka.Mozgas(this, cella);
@@ -262,9 +268,8 @@ namespace GameOfLife
             }
 
             // 4. lépés
-
+            
             lepettCella = cella.Roka.Mozgas(this, cella);
-
             if (lepettCella != null)
             {
                 lepettCella.SetRoka(palya[cella.X, cella.Y].Roka!);
@@ -273,6 +278,11 @@ namespace GameOfLife
             }
 
             // 5. lépés
+
+            if (cella.X > eredetiCella.X || (cella.X == eredetiCella.X && cella.Y > eredetiCella.Y))
+            {
+                cella.Roka!.Atlepheto = true;
+            }
 
             if (!cella.Roka!.JollakottsagiSzintCsokkentese())
             {
