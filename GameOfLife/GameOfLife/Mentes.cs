@@ -13,17 +13,39 @@ namespace GameOfLife
 
 
 
-        public static void MentPalya(Cella cella, Palya palya, string fajlnev = "teszt.txt")
+        public static void MentPalya(Cella cella, Palya palya, string fajlnev)
         {
             StreamWriter sw = new StreamWriter($"Mentesek/{fajlnev}.txt", false, Encoding.UTF8);
 
-            string menteniValoDolgok = $"PalyaMeretX:{palya.PalyaMeretX}\n" +
+            string menteniKoordinata = $"PalyaMeretX:{palya.PalyaMeretX}\n" +
                                        $"PalyaMeretY:{palya.PalyaMeretY}\n";
 
 
-            sw.WriteLine(menteniValoDolgok);
+            sw.WriteLine(menteniKoordinata);
+
+            for (int i = 0; i < palya.PalyaMeretX; i++)
+            {
+                for (int j = 0; j < palya.PalyaMeretY; j++)
+                {
+                    if (cella.HasFu())
+                    {
+                        sw.Write(cella.Fu);
+                    }
+                    if (cella.HasNyul())
+                    {
+                        sw.Write("N");
+                    }
+                    if (cella.HasRoka())
+                    {
+                        sw.Write("R");
+                    }
+                }
+                sw.WriteLine();
+            }
             sw.Close();
 
+            //Cella cella = new(0, 0);
+            //Mentes.MentPalya(cella, palya, "Mentes2");
         }
     }
 }
