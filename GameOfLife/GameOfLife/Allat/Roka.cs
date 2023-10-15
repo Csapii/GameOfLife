@@ -37,14 +37,18 @@ namespace GameOfLife
             }
         }
 
+        public int SzaporodasVisszaszamlalo { get; set; }
+
         public Roka(int jollakottsagiSzint)
         {
             JollakottsagiSzint = jollakottsagiSzint;
+            SzaporodasVisszaszamlalo = 0;
         }
 
         public Roka()
         {
             ((IAllat)this).JollakottsagiSzintBeallitas();
+            SzaporodasVisszaszamlalo = 0;
         }
 
         void IAllat.JollakottsagiSzintBeallitas()
@@ -186,23 +190,28 @@ namespace GameOfLife
             // Róka születik, állapotok megváltoztatása
 
 
-            Random rnd = new();
-
-            Cella partnerCella = kozeliRokaCellak[rnd.Next(0, kozeliRokaCellak.Count)];
-            Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
-
-            cella.Roka.MostSzaporodott = true;
-            partnerCella.Roka!.MostSzaporodott = true;
-            babaCella.SetRoka();
-            if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
+            if (SzaporodasVisszaszamlalo == 0)
             {
-                babaCella.Roka!.Atlepheto = true;
+                Random rnd = new();
+
+                Cella partnerCella = kozeliRokaCellak[rnd.Next(0, kozeliRokaCellak.Count)];
+                Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
+
+                cella.Roka.MostSzaporodott = true;
+                cella.Roka.SzaporodasVisszaszamlalo = 5;
+                partnerCella.Roka!.MostSzaporodott = true;
+                partnerCella.Roka.SzaporodasVisszaszamlalo = 5;
+                babaCella.SetRoka();
+                if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
+                {
+                    babaCella.Roka!.Atlepheto = true;
+                }
+
+                palyaClass.palya[partnerCella.X, partnerCella.Y] = partnerCella;
+                palyaClass.palya[babaCella.X, babaCella.Y] = babaCella;
+
+                return;
             }
-
-            palyaClass.palya[partnerCella.X, partnerCella.Y] = partnerCella;
-            palyaClass.palya[babaCella.X, babaCella.Y] = babaCella;
-
-            return;
         }
 
 

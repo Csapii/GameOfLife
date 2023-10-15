@@ -49,9 +49,15 @@ namespace GameOfLife
             }
         }
 
-        public void SetFu()
+        public void SetFu(int ertek = -1)
         {
-            Fu ??= new Fu();
+            if (ertek == -1)
+            {
+                Fu = new Fu();
+            } else
+            {
+                Fu = new Fu(ertek);
+            }
         }
 
         public void RemoveRoka()
