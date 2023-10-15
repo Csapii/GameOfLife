@@ -9,14 +9,12 @@ namespace GameOfLife.Interface
     internal interface IAllat
     {
         int JollakottsagiSzint { get; set; }
-
-        int Azonosito { get;}
-        bool JollakottsagiSzintNovelese(int egyseg);
-        bool JollakottsagiSzintCsokkentese();
+        void JollakottsagiSzintNovelese(int egyseg);
+        void JollakottsagiSzintCsokkentese(Cella cella);
         void JollakottsagiSzintBeallitas();
-
         Cella Mozgas(Palya palyaClass, Cella cella);
-        List<Cella> Szaporodas(Palya palyaClass, Cella cella);
+        void Szaporodas(Palya palyaClass, Cella cella);
         Cella Taplalkozas(Palya palyaClass, Cella cella);
+        void AllapotVizsgalat(Cella cella, Cella eredetiCella);
     }
 }
