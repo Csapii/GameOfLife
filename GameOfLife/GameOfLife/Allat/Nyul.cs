@@ -37,14 +37,18 @@ namespace GameOfLife
             }
         }
 
+        public int SzaporodasVisszaszamlalo { get; set; }
+
         public Nyul(int jollakottsagiSzint)
         {
             JollakottsagiSzint = jollakottsagiSzint;
+            SzaporodasVisszaszamlalo = 0;
         }
 
         public Nyul()
         {
             ((IAllat)this).JollakottsagiSzintBeallitas();
+            SzaporodasVisszaszamlalo = 0;
         }
 
         void IAllat.JollakottsagiSzintBeallitas()
@@ -203,23 +207,26 @@ namespace GameOfLife
             // Nyúl születik, állapotok megváltoztatása
 
 
-            Random rnd = new();
-
-            Cella partnerCella = kozeliNyulCellak[rnd.Next(0, kozeliNyulCellak.Count)];
-            Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
-
-            cella.Nyul.MostSzaporodott = true;
-            partnerCella.Nyul!.MostSzaporodott = true;
-            babaCella.SetNyul();
-            if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
+            if (SzaporodasVisszaszamlalo == 0)
             {
-                babaCella.Nyul!.Atlepheto = true;
+                Random rnd = new();
+
+                Cella partnerCella = kozeliNyulCellak[rnd.Next(0, kozeliNyulCellak.Count)];
+                Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
+
+                cella.Nyul.MostSzaporodott = true;
+                partnerCella.Nyul!.MostSzaporodott = true;
+                babaCella.SetNyul();
+                if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
+                {
+                    babaCella.Nyul!.Atlepheto = true;
+                }
+
+                palyaClass.palya[partnerCella.X, partnerCella.Y] = partnerCella;
+                palyaClass.palya[babaCella.X, babaCella.Y] = babaCella;
+
+                return;
             }
-
-            palyaClass.palya[partnerCella.X, partnerCella.Y] = partnerCella;
-            palyaClass.palya[babaCella.X, babaCella.Y] = babaCella;
-
-            return;
         }
 
 
