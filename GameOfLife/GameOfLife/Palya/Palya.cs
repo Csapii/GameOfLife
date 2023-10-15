@@ -51,16 +51,16 @@ namespace GameOfLife
             {
                 for (int y = 0; y < PalyaMeretY; y++)
                 {
-                    int rolled = rnd.Next(0, 5);
+                    int rolled = rnd.Next(0, 10);
 
                     palya[x,y] = new Cella(x,y);
 
                     FuHozzaadas(x,y);
 
-                    if (rolled == 0)
+                    if (rolled < 3)
                     {
                         NyulHozzaadas(x,y);
-                    } else if (rolled == 1)
+                    } else if (rolled < 4)
                     {
                         RokaHozzaadas(x,y);
                     }
@@ -119,32 +119,22 @@ namespace GameOfLife
 
         public void PalyaValtoztatasok()
         {
-            for (int x = 0; x < PalyaMeretX; x++)
-            {
-                for (int y = 0; y < PalyaMeretY; y++)
-                {
-                    if (palya[x, y].HasFu())
-                    {
-                        FuValtoztatasok(palya[x, y]);
-                    }
+            for (int x = 0; x < PalyaMeretX; x++) { for (int y = 0; y < PalyaMeretY; y++) {
+                if (palya[x, y].HasFu()) { FuValtoztatasok(palya[x, y]); } }
+            }
 
-                    if (palya[x, y].HasNyul())
-                    {
-                        NyulValtoztatasok(palya[x, y]);
-                    }
+            for (int x = 0; x < PalyaMeretX; x++) { for (int y = 0; y < PalyaMeretY; y++) {
+                if (palya[x, y].HasNyul()) { NyulValtoztatasok(palya[x, y]); } }
+            }
 
-                    if (palya[x, y].HasRoka())
-                    {
-                        RokaValtoztatasok(palya[x, y]);
-                    }
-
-                }
+            for (int x = 0; x < PalyaMeretX; x++) { for (int y = 0; y < PalyaMeretY; y++) {
+                if (palya[x, y].HasRoka()) { RokaValtoztatasok(palya[x, y]); } }
             }
         }
 
 
 
-        public void FuValtoztatasok(Cella cella)
+        public static void FuValtoztatasok(Cella cella)
         {
             if (!cella.HasNyul() && !cella.HasRoka()) { cella.Fu!.NovekedesiAllapotvaltozasNoveles(); }
         }
@@ -157,57 +147,29 @@ namespace GameOfLife
             /* 1. A nyúl táplálkozik
              * 2. Ha nyúl mellett áll és tele van, akkor szaporodik
              * 3. Ha nem szaporodott, akkor megpróbál elmozdulni
-             * 4. Tápérték lemegy
+             * 4. Állapot vizsgálat és beállítás
+             * 5. Jóllakotsági szint lemegy
             */
 
             // 0. lépés
-
             if (cella.Nyul!.Atlepheto) { cella.Nyul.Atlepheto = false; return; }
+            Cella eredetiCella = cella;
 
             // 1. lépés
-
-            Cella eredetiCella = cella;
             cella.Nyul.Taplalkozas(this, cella);
 
             // 2. lépés
-
-            List<Cella> szaporodas;
-
-            if (!cella.Nyul.MostSzaporodott && cella.Nyul.JollakottsagiSzint > 4)
-            {
-                szaporodas = cella.Nyul.Szaporodas(this, cella);
-            } else { cella.Nyul.MostSzaporodott = false; szaporodas = new List<Cella>(); }
-
-
-            if (szaporodas.Count != 0)
-            {
-                palya[szaporodas[0].X, szaporodas[0].Y] = szaporodas[0];
-                palya[szaporodas[1].X, szaporodas[1].Y] = szaporodas[1];
-                return;
-            }
+            cella.Nyul.Szaporodas(this, cella);
 
             // 3. lépés
-
-            Cella lepettCella = cella.Nyul.Mozgas(this, cella);
-
-            if (lepettCella != null)
-            {
-                lepettCella.SetNyul(palya[cella.X, cella.Y].Nyul!);
-                palya[cella.X, cella.Y].RemoveNyul();
-                cella = lepettCella;
-            }
+            cella = cella.Nyul.Mozgas(this, cella);
 
             // 4. lépés
+            cella.Nyul!.AllapotVizsgalat(cella, eredetiCella);
 
-            if (cella.X > eredetiCella.X || (cella.X == eredetiCella.X && cella.Y > eredetiCella.Y))
-            {
-                cella.Nyul!.Atlepheto = true;
-            }
+            // 5. lépés
+            cella.Nyul.JollakottsagiSzintCsokkentese(cella);
 
-            if (!cella.Nyul!.JollakottsagiSzintCsokkentese())
-            {
-                cella.RemoveNyul();
-            }
         }
 
 
@@ -219,75 +181,30 @@ namespace GameOfLife
              * 2. Ha nem táplálkozott, elmozdul
              * 3. Ha róka mellett áll és nem éhes, akkor szaporodik
              * 4. Ha nem szaporodott, akkor megpróbál elmozdulni
-             * 5. Tápérték lemegy
+             * 5. Állapot vizsgálat és beállítás
+             * 6. Jóllakotsági szint lemegy
             */
 
             // 0. lépés
-
             if (cella.Roka!.Atlepheto) { cella.Roka.Atlepheto = false; return; }
+            Cella eredetiCella = cella;
 
             // 1. lépés
+            cella = cella.Roka.Taplalkozas(this, cella);
 
-            Cella preda = cella.Roka.Taplalkozas(this, cella);
-            Cella eredetiCella = cella;
-            Cella lepettCella;
-
-            if (preda.X != -999)
-            {
-                palya[preda.X, preda.Y].RemoveNyul();
-                palya[preda.X, preda.Y].SetRoka(cella.Roka);
-                cella.RemoveRoka();
-                cella = preda;
-            } else // 2. lépés
-            {
-                lepettCella = cella.Roka.Mozgas(this, cella);
-                if (lepettCella != null)
-                {
-                    lepettCella.SetRoka(palya[cella.X, cella.Y].Roka!);
-                    palya[cella.X, cella.Y].RemoveRoka();
-                    cella = lepettCella;
-                }
-            }
-
+            // 2. lépés
+            cella = cella.Roka!.Mozgas(this, cella);
             // 3. lépés
-
-            List<Cella> szaporodas;
-
-            if (!cella.Roka!.MostSzaporodott && cella.Roka.JollakottsagiSzint > 7)
-            {
-                szaporodas = cella.Roka.Szaporodas(this, cella);
-            }
-            else { cella.Roka.MostSzaporodott = false; szaporodas = new List<Cella>(); }
-
-
-            if (szaporodas.Count != 0)
-            {
-                palya[szaporodas[0].X, szaporodas[0].Y] = szaporodas[0];
-                palya[szaporodas[1].X, szaporodas[1].Y] = szaporodas[1];
-                return;
-            }
+            cella.Roka!.Szaporodas(this, cella);
 
             // 4. lépés
-            
-            lepettCella = cella.Roka.Mozgas(this, cella);
-            if (lepettCella != null)
-            {
-                lepettCella.SetRoka(palya[cella.X, cella.Y].Roka!);
-                palya[cella.X, cella.Y].RemoveRoka();
-                cella = lepettCella;
-            }
+            cella = cella.Roka!.Mozgas(this, cella);
 
             // 5. lépés
+            cella.Roka!.AllapotVizsgalat(cella, eredetiCella);
 
-            if (cella.X > eredetiCella.X || (cella.X == eredetiCella.X && cella.Y > eredetiCella.Y))
-            {
-                cella.Roka!.Atlepheto = true;
-            }
-
-            if (!cella.Roka!.JollakottsagiSzintCsokkentese())
-            {
-                cella.RemoveRoka();
-            }
+            // 6. lépés
+            cella.Roka!.JollakottsagiSzintCsokkentese(cella);
         }
     }
 }
