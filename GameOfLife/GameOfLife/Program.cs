@@ -12,16 +12,3 @@ Palya palya = new (palyaMeretX, palyaMeretY);
 Szimulacio szimulacio = new (palya, korokSzama);
 
 szimulacio.SzimulacioInditas();
-
-
-
-Mentes mentes = new ();
-mentes.MentPalya(palya);
-Palya masodlagos = mentes.BetoltPalya();
-
-Console.Write("\nAdja meg a körök számát: ");
-korokSzama = Convert.ToInt32(Console.ReadLine());
-
-szimulacio = new (masodlagos, korokSzama);
-
-szimulacio.SzimulacioInditas();

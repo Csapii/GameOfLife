@@ -61,7 +61,7 @@ namespace GameOfLife
                 
                 if (sor[3] != "")
                 {
-                    Nyul nyul = new Nyul(int.Parse(sor[3]));
+                    Nyul nyul = new (int.Parse(sor[3]));
                     palyaClass.palya[x, y].SetNyul(nyul);
                     palyaClass.palya[x, y].Nyul!.Atlepheto = sor[4] == "True";
                     palyaClass.palya[x, y].Nyul!.MostSzaporodott = sor[5] == "True";
@@ -69,7 +69,7 @@ namespace GameOfLife
 
                 if (sor[6] != "")
                 {
-                    Roka roka = new Roka(int.Parse(sor[6]));
+                    Roka roka = new (int.Parse(sor[6]));
                     palyaClass.palya[x, y].SetRoka(roka);
                     palyaClass.palya[x, y].Roka!.Atlepheto = sor[7] == "True";
                     palyaClass.palya[x, y].Roka!.MostSzaporodott = sor[8] == "True";

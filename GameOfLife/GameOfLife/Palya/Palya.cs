@@ -73,7 +73,7 @@ namespace GameOfLife
 
         public void PalyaMegjelenites()
         {
-            // Console.Clear();
+            Console.Clear();
 
             for (int x = 0; x < PalyaMeretX; x++)
             {
