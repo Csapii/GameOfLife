@@ -50,9 +50,54 @@ namespace GameOfLife
                     ConsoleKeyInfo confirm = Console.ReadKey();
                     if (confirm.Key == ConsoleKey.Y)
                     {
+                        DirectoryInfo mentesiFajlok = new("Mentesek/");
+                        // Mappa tartalmának lekérése
+                        FileInfo[] fajlok = mentesiFajlok.GetFiles();
+
+                        // Fájlok kiíratása
+                        Console.WriteLine("\nLegutóbbi mentések: ");
+                        int fajlIndex = 1;
+                        int counter = 0;
+                        foreach (FileInfo fajl in fajlok)
+                        {
+                            Console.WriteLine($"{fajlIndex} - {fajl.Name}");
+                            fajlIndex++;
+                            counter++;
+                        }
+                        Console.Write("\n");
+
                         Console.Write("\nMi legyen a fájl neve: ");
                         string fajlnev = Console.ReadLine()!;
-                        mentes.MentPalya(palya, fajlnev);
+                        if (fajlnev.Length > 0)
+                        {
+                            if (fajlok.Any(x => x.Name == fajlnev))
+                            {
+                                Console.Write("Már van ilyen nevű mentésed, biztosan felül szeretnéd írni ? Y/N : ");
+                                ConsoleKeyInfo dontes = Console.ReadKey();
+
+                                if (dontes.Key == ConsoleKey.Y)
+                                {
+                                    mentes.MentPalya(palya, fajlnev);
+                                    Console.WriteLine("Sikeresen felülírtad a fájlt !");
+                                    Console.WriteLine("\nNyomj meg egy gombot a folytatáshoz");
+                                    _ = Console.ReadKey();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nNyomj meg egy gombot a folytatáshoz");
+                                    _ = Console.ReadKey();
+                                }
+                            }
+                            else
+                            {
+                                mentes.MentPalya(palya, fajlnev);
+                            }
+                        }
+                        else
+                        {
+                            fajlnev = DateTime.Now.Year+""+DateTime.Now.Month+""+DateTime.Now.Day+""+DateTime.Now.Second;
+                            mentes.MentPalya(palya, fajlnev);
+                        }
                     }
                 }
                 else if (pressed.Key == ConsoleKey.L)
@@ -61,14 +106,54 @@ namespace GameOfLife
                     ConsoleKeyInfo confirm = Console.ReadKey();
                     if (confirm.Key == ConsoleKey.Y)
                     {
-                        Console.Write("\nMi a fájl neve: ");
-                        string fajlnev = Console.ReadLine()!;
-                        Console.Write("Adja meg a körök számát: ");
-                        KorokSzama = Convert.ToInt32(Console.ReadLine());
-                        palya = mentes.BetoltPalya(fajlnev);
-                        JelenlegiKorSzama = 0;
-                        pressed = new ();
-                        continue;
+                        DirectoryInfo mentesiFajlok = new("Mentesek/");
+                        // Mappa tartalmának lekérése
+                        FileInfo[] fajlok = mentesiFajlok.GetFiles();
+                        if (fajlok.Length > 0)
+                        {
+                            // Fájlok kiíratása
+                            Console.WriteLine("\nLegutóbbi mentések: ");
+                            int fajlIndex = 1;
+                            int counter = 0;
+                            foreach (FileInfo fajl in fajlok)
+                            {
+                                Console.WriteLine($"{fajlIndex} - {fajl.Name}");
+                                fajlIndex++;
+                                counter++;
+                            }
+                            Console.Write("\n");
+
+                            Console.Write("\nÍrd be annak a számát, amelyik beszeretnéd tölteni: ");
+                            int fajlSorszam = Convert.ToInt32(Console.ReadLine());
+                            if (counter >= fajlSorszam)
+                            {
+                                string fajlnev = fajlok[fajlSorszam - 1].Name;
+                                if (fajlok.Any(x => x.Name == fajlnev))
+                                {
+                                    Console.WriteLine(fajlnev);
+                                    Console.Write("Adja meg a körök számát: ");
+                                    KorokSzama = Convert.ToInt32(Console.ReadLine());
+                                    palya = mentes.BetoltPalya(fajlnev);
+                                    JelenlegiKorSzama = 0;
+                                    pressed = new();
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nincs ilyes sorszámú fájl !");
+                                Console.WriteLine("\nNyomj meg egy gombot a folytatáshoz");
+                                _ = Console.ReadKey();
+                            }
+                            
+                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nMég nincsen egy mentésed sem");
+                            Console.WriteLine("\nNyomj meg egy gombot a folytatáshoz");
+                            _ = Console.ReadKey();
+                        }
                     }
                 }
                 else if (pressed.Key == ConsoleKey.N)

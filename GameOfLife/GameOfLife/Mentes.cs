@@ -11,7 +11,7 @@ namespace GameOfLife
 
         public void MentPalya(Palya palya, string fajlnev = "mentes.txt")
         {
-            StreamWriter w = new(fajlnev);
+            StreamWriter w = new($"Mentesek/{fajlnev}", false, Encoding.UTF8);
 
             w.WriteLine($"{palya.PalyaMeretX};{palya.PalyaMeretY}");
 
@@ -41,7 +41,7 @@ namespace GameOfLife
 
         public Palya BetoltPalya(string fajlnev = "mentes.txt")
         {
-            StreamReader r = new (fajlnev);
+            StreamReader r = new ($"Mentesek/{fajlnev}");
 
             string[] palyaMeret = r.ReadLine()!.Split(";");
 
