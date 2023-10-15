@@ -148,6 +148,7 @@ namespace GameOfLife
              * 2. Ha nyúl mellett áll és tele van, akkor szaporodik
              * 3. Ha nem szaporodott, akkor megpróbál elmozdulni
              * 4. Állapot vizsgálat és beállítás
+             * 4.5 Szaporodást befolyásoló számláló csökkentése
              * 5. Jóllakotsági szint lemegy
             */
 
@@ -167,6 +168,12 @@ namespace GameOfLife
             // 4. lépés
             cella.Nyul!.AllapotVizsgalat(cella, eredetiCella);
 
+            // 4.5 lépés
+            if (cella.Nyul.SzaporodasVisszaszamlalo > 0)
+            {
+                cella.Nyul.SzaporodasVisszaszamlalo--;
+            }
+
             // 5. lépés
             cella.Nyul.JollakottsagiSzintCsokkentese(cella);
 
@@ -182,6 +189,7 @@ namespace GameOfLife
              * 3. Ha róka mellett áll és nem éhes, akkor szaporodik
              * 4. Ha nem szaporodott, akkor megpróbál elmozdulni
              * 5. Állapot vizsgálat és beállítás
+             * 5.5 Szaporodást befolyásoló számláló csökkentése 
              * 6. Jóllakotsági szint lemegy
             */
 
@@ -202,6 +210,12 @@ namespace GameOfLife
 
             // 5. lépés
             cella.Roka!.AllapotVizsgalat(cella, eredetiCella);
+
+            // 5.5 lépés
+            if (cella.Roka.SzaporodasVisszaszamlalo > 0)
+            {
+                cella.Roka.SzaporodasVisszaszamlalo--;
+            }
 
             // 6. lépés
             cella.Roka!.JollakottsagiSzintCsokkentese(cella);

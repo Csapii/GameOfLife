@@ -8,6 +8,7 @@ namespace GameOfLife.Interface
 {
     internal interface IAllat
     {
+        public int SzaporodasVisszaszamlalo { get; set; }
         int JollakottsagiSzint { get; set; }
         void JollakottsagiSzintNovelese(int egyseg);
         void JollakottsagiSzintCsokkentese(Cella cella);
