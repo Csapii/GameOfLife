@@ -25,8 +25,10 @@ namespace GameOfLife
 
         public void SzimulacioInditas()
         {
-
-            palya.PalyaElkeszites();
+            if (palya.palya[0,0] == null)
+            {
+                palya.PalyaElkeszites();
+            }
 
             palya.PalyaMegjelenites();
 

@@ -57,10 +57,10 @@ namespace GameOfLife
 
                     FuHozzaadas(x,y);
 
-                    if (rolled < 3)
+                    if (rolled < 1)
                     {
                         NyulHozzaadas(x,y);
-                    } else if (rolled < 4)
+                    } else if (rolled < 2)
                     {
                         RokaHozzaadas(x,y);
                     }
@@ -73,7 +73,7 @@ namespace GameOfLife
 
         public void PalyaMegjelenites()
         {
-            Console.Clear();
+            // Console.Clear();
 
             for (int x = 0; x < PalyaMeretX; x++)
             {
