@@ -215,7 +215,9 @@ namespace GameOfLife
                 Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
 
                 cella.Nyul.MostSzaporodott = true;
+                cella.Nyul.SzaporodasVisszaszamlalo = 3;
                 partnerCella.Nyul!.MostSzaporodott = true;
+                partnerCella.Nyul.SzaporodasVisszaszamlalo = 3;
                 babaCella.SetNyul();
                 if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
                 {
