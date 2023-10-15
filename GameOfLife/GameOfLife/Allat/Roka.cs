@@ -198,7 +198,9 @@ namespace GameOfLife
                 Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
 
                 cella.Roka.MostSzaporodott = true;
+                cella.Roka.SzaporodasVisszaszamlalo = 5;
                 partnerCella.Roka!.MostSzaporodott = true;
+                partnerCella.Roka.SzaporodasVisszaszamlalo = 5;
                 babaCella.SetRoka();
                 if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
                 {
