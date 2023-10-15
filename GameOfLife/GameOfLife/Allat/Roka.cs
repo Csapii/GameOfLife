@@ -14,19 +14,10 @@ namespace GameOfLife
 
         public bool Atlepheto = false;
 
-        private static int azonositohozSzamlalo = 1;
-        public int Azonosito { get; } = azonositohozSzamlalo++;
-
-        public Roka(int jollakottsagiSzint)
-        {
-            JollakottsagiSzint = jollakottsagiSzint;
-        }
-        public Roka()
-        {
-            ((IAllat)this).JollakottsagiSzintBeallitas();
-        }
+        public bool Taplalkozott = false;
 
         private int jollakottsagiSzint;
+
         public int JollakottsagiSzint
         {
             get
@@ -46,37 +37,50 @@ namespace GameOfLife
             }
         }
 
+        public Roka(int jollakottsagiSzint)
+        {
+            JollakottsagiSzint = jollakottsagiSzint;
+        }
+
+        public Roka()
+        {
+            ((IAllat)this).JollakottsagiSzintBeallitas();
+        }
+
         void IAllat.JollakottsagiSzintBeallitas()
         {
             Random rnd = new();
-            int veletlenszam = rnd.Next(0, 11);
-
-            JollakottsagiSzint = veletlenszam;
+            JollakottsagiSzint = rnd.Next(0, 10 + 1);
         }
-        public bool JollakottsagiSzintNovelese(int egyseg)
+
+        public void JollakottsagiSzintNovelese(int egyseg)
         {
-            if (JollakottsagiSzint + egyseg <= 10 && egyseg > 0)
+            if (JollakottsagiSzint + egyseg < 10 + 1 && egyseg > 0)
             {
                 jollakottsagiSzint += egyseg;
-                return true;
             }
-            return false;
         }
-        public bool JollakottsagiSzintCsokkentese()
+
+        public void JollakottsagiSzintCsokkentese(Cella cella)
         {
             if (JollakottsagiSzint - 1 > 0)
             {
                 jollakottsagiSzint--;
-                return true;
+            } else
+            {
+                cella.RemoveRoka();
             }
-            return false;
         }
 
 
 
         public Cella Mozgas(Palya palyaClass, Cella cella)
         {
+            if (cella.Roka!.Taplalkozott) { cella.Roka.Taplalkozott = false; return cella; }
+            if (cella.Roka.MostSzaporodott) { cella.Roka.MostSzaporodott = false; return cella; }
+
             List<Cella> lephetoCella = new();
+
             for (int x = cella.X - 1; x < cella.X + 2; x++)
             {
                 for (int y = cella.Y - 1; y < cella.Y + 2; y++)
@@ -89,16 +93,20 @@ namespace GameOfLife
                 }
             }
 
-            Random rnd = new();
-
-            Cella? lepettCella = lephetoCella.Count > 0 ? lephetoCella[rnd.Next(0, lephetoCella.Count)] : null;
-
-            return lepettCella!;
+            if (lephetoCella.Count > 0)
+            {
+                Random rnd = new();
+                Cella lepettCella = lephetoCella[rnd.Next(0, lephetoCella.Count)];
+                lepettCella.SetRoka(palyaClass.palya[cella.X, cella.Y].Roka!);
+                palyaClass.palya[cella.X, cella.Y].RemoveRoka();
+                return lepettCella;
+            }
+            else { return cella; }
         }
 
+        public void Szaporodas(Palya palyaClass, Cella cella) {
+            if (cella.Roka!.MostSzaporodott || cella.Roka.JollakottsagiSzint < 8 ) { return; }
 
-
-        public List<Cella> Szaporodas(Palya palyaClass, Cella cella) {
             List<Cella> kozeliRokaCellak = new();
             List<Cella> kozeliUresCellak = new();
             Cella adott;
@@ -140,9 +148,7 @@ namespace GameOfLife
             } // Jobbra scan
 
 
-
-            if (kozeliRokaCellak.Count == 0) { return new List<Cella>(); } // Ha nem talált rókát
-
+            if (kozeliRokaCellak.Count == 0) { return; } // Ha nem talált rókát
 
 
             if (cella.X - 1 >= 0 && cella.Y - 1 >= 0
@@ -163,7 +169,6 @@ namespace GameOfLife
                 && !palyaClass.palya[cella.X - 1, cella.Y + 1].HasNyul()
                 && !palyaClass.palya[cella.X - 1, cella.Y + 1].HasRoka())
             {
-
                 kozeliUresCellak.Add(palyaClass.palya[cella.X - 1, cella.Y + 1]);
             } // Jobb felső scan
 
@@ -174,16 +179,19 @@ namespace GameOfLife
                 kozeliUresCellak.Add(palyaClass.palya[cella.X + 1, cella.Y + 1]);
             } // Jobb alsó scan
 
-            if (kozeliUresCellak.Count == 0) { return new List<Cella>(); } // Ha nincs közeli üres cella
+
+            if (kozeliUresCellak.Count == 0) { return; } // Ha nincs közeli üres cella
+
 
             // Róka születik, állapotok megváltoztatása
+
 
             Random rnd = new();
 
             Cella partnerCella = kozeliRokaCellak[rnd.Next(0, kozeliRokaCellak.Count)];
             Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
 
-            MostSzaporodott = true;
+            cella.Roka.MostSzaporodott = true;
             partnerCella.Roka!.MostSzaporodott = true;
             babaCella.SetRoka();
             if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
@@ -191,13 +199,10 @@ namespace GameOfLife
                 babaCella.Roka!.Atlepheto = true;
             }
 
-            List<Cella> visszaadott = new()
-            {
-                partnerCella,
-                babaCella
-            };
+            palyaClass.palya[partnerCella.X, partnerCella.Y] = partnerCella;
+            palyaClass.palya[babaCella.X, babaCella.Y] = babaCella;
 
-            return visszaadott;
+            return;
         }
 
 
@@ -217,15 +222,32 @@ namespace GameOfLife
                 }
             }
 
-            Random rnd = new ();
-
-            if (predaLista.Count > 0 && JollakottsagiSzint + 3 < 11)
+            if (predaLista.Count > 0 && JollakottsagiSzint + 3 < 10 + 1)
             {
-                JollakottsagiSzintNovelese(3);
-                return predaLista[rnd.Next(0, predaLista.Count)];
+                Random rnd = new();
+                Cella predaCella = predaLista[rnd.Next(0, predaLista.Count)];
+
+                JollakottsagiSzintNovelese(predaCella.Nyul!.Tapertek);
+                cella.Roka!.Taplalkozott = true;
+
+                palyaClass.palya[predaCella.X, predaCella.Y].RemoveNyul();
+                palyaClass.palya[predaCella.X, predaCella.Y].SetRoka(cella.Roka);
+                cella.RemoveRoka();
+
+                return predaCella;
             } else
             {
-                return new Cella(-999,0);
+                return cella;
+            }
+        }
+
+
+
+        public void AllapotVizsgalat(Cella cella, Cella eredetiCella)
+        {
+            if (cella.X > eredetiCella.X || (cella.X == eredetiCella.X && cella.Y > eredetiCella.Y))
+            {
+                Atlepheto = true;
             }
         }
     }
