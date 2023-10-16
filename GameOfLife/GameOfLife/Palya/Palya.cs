@@ -14,6 +14,10 @@ namespace GameOfLife
 
         public int PalyaMeretY { get; init; }
 
+        public int NyulakSzazalek { get; private set; }
+
+        public int RokakSzazalek { get; private set; }
+
         public Cella[,] palya;
 
         private readonly Random rnd;
@@ -26,7 +30,11 @@ namespace GameOfLife
             rnd = new Random();
         }
 
-
+        public void SzazalekBeallitas(int nyulakSzazalek, int rokakSzazalek)
+        {
+            NyulakSzazalek = nyulakSzazalek;
+            RokakSzazalek = rokakSzazalek;
+        }
 
         public void FuHozzaadas(int x, int y)
         {
@@ -51,16 +59,16 @@ namespace GameOfLife
             {
                 for (int y = 0; y < PalyaMeretY; y++)
                 {
-                    int rolled = rnd.Next(0, 10);
+                    int rolled = rnd.Next(1, 101);
 
                     palya[x,y] = new Cella(x,y);
 
                     FuHozzaadas(x,y);
 
-                    if (rolled < 1)
+                    if (rolled <= NyulakSzazalek)
                     {
                         NyulHozzaadas(x,y);
-                    } else if (rolled < 2)
+                    } else if (rolled <= NyulakSzazalek + RokakSzazalek)
                     {
                         RokaHozzaadas(x,y);
                     }
@@ -168,12 +176,6 @@ namespace GameOfLife
             // 4. lépés
             cella.Nyul!.AllapotVizsgalat(cella, eredetiCella);
 
-            // 4.5 lépés
-            if (cella.Nyul.SzaporodasVisszaszamlalo > 0)
-            {
-                cella.Nyul.SzaporodasVisszaszamlalo--;
-            }
-
             // 5. lépés
             cella.Nyul.JollakottsagiSzintCsokkentese(cella);
 
@@ -202,6 +204,7 @@ namespace GameOfLife
 
             // 2. lépés
             cella = cella.Roka!.Mozgas(this, cella);
+
             // 3. lépés
             cella.Roka!.Szaporodas(this, cella);
 
@@ -210,12 +213,6 @@ namespace GameOfLife
 
             // 5. lépés
             cella.Roka!.AllapotVizsgalat(cella, eredetiCella);
-
-            // 5.5 lépés
-            if (cella.Roka.SzaporodasVisszaszamlalo > 0)
-            {
-                cella.Roka.SzaporodasVisszaszamlalo--;
-            }
 
             // 6. lépés
             cella.Roka!.JollakottsagiSzintCsokkentese(cella);

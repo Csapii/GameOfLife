@@ -254,6 +254,11 @@ namespace GameOfLife
             {
                 Atlepheto = true;
             }
+
+            if (SzaporodasVisszaszamlalo > 0)
+            {
+                SzaporodasVisszaszamlalo--;
+            }
         }
     }
 }
