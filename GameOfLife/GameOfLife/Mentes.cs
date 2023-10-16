@@ -24,10 +24,10 @@ namespace GameOfLife
                     cellaTartalom += $"{palya.palya[x, y].Fu!.Tapertek};";
                     cellaTartalom += (palya.palya[x, y].HasNyul() ? palya.palya[x, y].Nyul!.JollakottsagiSzint : null) + ";";
                     cellaTartalom += (palya.palya[x, y].HasNyul() ? palya.palya[x, y].Nyul!.Atlepheto : null) + ";";
-                    cellaTartalom += (palya.palya[x, y].HasNyul() ? palya.palya[x, y].Nyul!.MostSzaporodott : null) + ";";
+                    cellaTartalom += (palya.palya[x, y].HasNyul() ? palya.palya[x, y].Nyul!.SzaporodasVisszaszamlalo : null) + ";";
                     cellaTartalom += (palya.palya[x, y].HasRoka() ? palya.palya[x, y].Roka!.JollakottsagiSzint : null) + ";";
                     cellaTartalom += (palya.palya[x, y].HasRoka() ? palya.palya[x, y].Roka!.Atlepheto : null) + ";";
-                    cellaTartalom += (palya.palya[x, y].HasRoka() ? palya.palya[x, y].Roka!.MostSzaporodott : null) + ";";
+                    cellaTartalom += (palya.palya[x, y].HasRoka() ? palya.palya[x, y].Roka!.SzaporodasVisszaszamlalo : null) + ";";
                     cellaTartalom += (palya.palya[x, y].HasRoka() ? palya.palya[x, y].Roka!.Taplalkozott : null);
 
                     w.WriteLine(cellaTartalom);
@@ -72,7 +72,15 @@ namespace GameOfLife
                     Roka roka = new (int.Parse(sor[6]));
                     palyaClass.palya[x, y].SetRoka(roka);
                     palyaClass.palya[x, y].Roka!.Atlepheto = sor[7] == "True";
-                    palyaClass.palya[x, y].Roka!.MostSzaporodott = sor[8] == "True";
+                    if (int.Parse(sor[8]) == 0)
+                    {
+                        palyaClass.palya[x, y].Roka!.SzaporodasVisszaszamlalo = 0;
+                        palyaClass.palya[x, y].Roka!.MostSzaporodott = false;
+                    } else
+                    {
+                        palyaClass.palya[x, y].Roka!.SzaporodasVisszaszamlalo = int.Parse(sor[8]);
+                        palyaClass.palya[x, y].Roka!.MostSzaporodott = true;
+                    }
                     palyaClass.palya[x, y].Roka!.Taplalkozott = sor[9] == "True";
                 }
             }

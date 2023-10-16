@@ -10,6 +10,8 @@ namespace GameOfLife
     internal class Roka : IAllat
     {
 
+        public int SzaporodasVisszaszamlalo { get; set; }
+
         public bool MostSzaporodott = false;
 
         public bool Atlepheto = false;
@@ -36,8 +38,6 @@ namespace GameOfLife
                 }
             }
         }
-
-        public int SzaporodasVisszaszamlalo { get; set; }
 
         public Roka(int jollakottsagiSzint)
         {
@@ -81,7 +81,7 @@ namespace GameOfLife
         public Cella Mozgas(Palya palyaClass, Cella cella)
         {
             if (cella.Roka!.Taplalkozott) { cella.Roka.Taplalkozott = false; return cella; }
-            if (cella.Roka.MostSzaporodott) { cella.Roka.MostSzaporodott = false; return cella; }
+            if (cella.Roka.MostSzaporodott) { return cella; }
 
             List<Cella> lephetoCella = new();
 
@@ -190,28 +190,25 @@ namespace GameOfLife
             // Róka születik, állapotok megváltoztatása
 
 
-            if (SzaporodasVisszaszamlalo == 0)
+            Random rnd = new();
+
+            Cella partnerCella = kozeliRokaCellak[rnd.Next(0, kozeliRokaCellak.Count)];
+            Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
+
+            cella.Roka.MostSzaporodott = true;
+            cella.Roka.SzaporodasVisszaszamlalo = 5;
+            partnerCella.Roka!.MostSzaporodott = true;
+            partnerCella.Roka.SzaporodasVisszaszamlalo = 5;
+            babaCella.SetRoka();
+            if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
             {
-                Random rnd = new();
-
-                Cella partnerCella = kozeliRokaCellak[rnd.Next(0, kozeliRokaCellak.Count)];
-                Cella babaCella = kozeliUresCellak[rnd.Next(0, kozeliUresCellak.Count)];
-
-                cella.Roka.MostSzaporodott = true;
-                cella.Roka.SzaporodasVisszaszamlalo = 5;
-                partnerCella.Roka!.MostSzaporodott = true;
-                partnerCella.Roka.SzaporodasVisszaszamlalo = 5;
-                babaCella.SetRoka();
-                if (babaCella.X > cella.X || (babaCella.X == cella.X && babaCella.Y > cella.Y))
-                {
-                    babaCella.Roka!.Atlepheto = true;
-                }
-
-                palyaClass.palya[partnerCella.X, partnerCella.Y] = partnerCella;
-                palyaClass.palya[babaCella.X, babaCella.Y] = babaCella;
-
-                return;
+                babaCella.Roka!.Atlepheto = true;
             }
+
+            palyaClass.palya[partnerCella.X, partnerCella.Y] = partnerCella;
+            palyaClass.palya[babaCella.X, babaCella.Y] = babaCella;
+
+            return;
         }
 
 
@@ -262,6 +259,11 @@ namespace GameOfLife
             if (SzaporodasVisszaszamlalo > 0)
             {
                 SzaporodasVisszaszamlalo--;
+
+                if (SzaporodasVisszaszamlalo < 1)
+                {
+                    MostSzaporodott = false;
+                }
             }
         }
     }
